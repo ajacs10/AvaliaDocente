@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AvaliaDocente</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+  <link rel="stylesheet" href="../css/login.css?v=20260529-2">
+</head>
+
+<body class="login-page">
+  <div class="login-language" data-i18n-switcher aria-label="Selecionar idioma">
+    <button type="button" data-lang="pt">PT</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="fr">FR</button>
+  </div>
+
+  <div class="login-container">
+
+    <div class="login-left">
+
+      <div class="login-box">
+
+        <h1>Bem-vindo de volta</h1>
+        <p>Aceda à plataforma de avaliação académica com a sua credencial institucional</p>
+
+        <form id="loginForm" novalidate>
+          <label>Número, email ou nome</label>
+          <input type="text" placeholder="gmail ou n-estudante">
+
+          <label>Senha</label>
+          <div class="password-shell">
+            <input id="passwordField" type="password" placeholder="Introduza a sua senha">
+            <button type="button" class="toggle-password" aria-pressed="false" aria-label="Mostrar senha">
+              <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.25 12c1.83-4.5 6-7.5 9.75-7.5s7.92 3 9.75 7.5c-1.83 4.5-6 7.5-9.75 7.5S4.08 16.5 2.25 12z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+                <circle cx="12" cy="12" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+              </svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3l18 18" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M10.58 10.58A2.8 2.8 0 0 0 12 15.8 2.8 2.8 0 0 0 14.42 10.58" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M7.3 7.2A11.4 11.4 0 0 0 2.25 12c1.83 4.5 6 7.5 9.75 7.5 1.4 0 2.84-.32 4.17-.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16.7 16.8A11.4 11.4 0 0 0 21.75 12c-1.83-4.5-6-7.5-9.75-7.5-1.34 0-2.68.28-3.94.78" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+
+          <p class="form-message" id="authMessage" aria-live="polite"></p>
+
+          <div class="row">
+            <label class="remember">
+              <input type="checkbox">
+              Lembrar-me
+            </label>
+          </div>
+
+          <button type="submit">Aceder à plataforma</button>
+          <div class="recover">
+            <a href="./recuperar-acesso.html">Recuperar acesso</a>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- LADO DIREITO (IMAGEM) -->
+    <div class="login-right">
+      <div class="overlay">
+
+        <h2>Sistema de avaliação de professores</h2>
+
+        <p>
+          Avalie os seus professores de forma rápida e anónima.  
+          A sua voz ajuda a tornar as aulas mais justas e melhores para todos os estudantes.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/login-placeholders.js?v=20260530-1"></script>
+  <script src="../js/login-toggle.js?v=20260530-1"></script>
+  <script src="../js/i18n.js?v=20260530-14"></script>
+  <script src="../js/login-auth.js?v=20260530-2"></script>
+
+</body>
+</html>

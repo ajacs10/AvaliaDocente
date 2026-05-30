@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>AvaliaDocente</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+	<link rel="stylesheet" href="../css/variables.css">
+	<link rel="stylesheet" href="../css/global.css">
+	<link rel="stylesheet" href="../css/dashboard.css?v=20260530-10">
+	<link rel="stylesheet" href="../css/pages.css?v=20260530-13">
+	<link rel="stylesheet" href="../css/components/sidebar.css?v=20260530-9">
+	<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+	<div class="dashboard-container">
+		<div id="sidebar-root"></div>
+
+		<main class="dashboard-main">
+			<header class="dash-header">
+				<div class="welcome-text">
+					<h1 id="dashboardGreeting">Olá</h1>
+					<p class="header-security"><strong>Ambiente seguro e anônimo.</strong> Suas respostas são confidenciais e não podem ser rastreadas.</p>
+				</div>
+				<div class="header-actions">
+					<button class="notification-btn" aria-label="Notificações">
+						<i data-lucide="bell"></i>
+					</button>
+					<div class="user-profile">
+						<div class="avatar">ES</div>
+						<div class="user-info">
+							<span class="user-name" id="dashboardUserName">Estudante</span>
+							<span class="user-role">Estudante</span>
+						</div>
+						<i data-lucide="chevron-down" class="dropdown-icon"></i>
+					</div>
+				</div>
+			</header>
+
+			<section class="page-content">
+				<div class="profile-layout">
+					<div class="profile-side-column">
+						<div class="page-card profile-id-card">
+							<span class="section-label">Identificação</span>
+							<div class="profile-summary">
+								<button class="profile-photo" id="profilePhotoButton" type="button" aria-label="Trocar foto de perfil">
+									<span id="profilePhoto">ES</span>
+								</button>
+								<div>
+									<h2 class="card-title" id="profileName">Estudante</h2>
+									<p class="card-text" id="profileCourse">Curso não informado</p>
+								</div>
+							</div>
+							<div class="stat-grid profile-id-stats">
+								<div class="stat-card"><span class="muted" id="profileIdentifierLabel">N.º de Estudante</span><strong id="profileStudentId">--</strong></div>
+								<div class="stat-card"><span class="muted" id="profileYearLabel">Ano</span><strong id="profileYear">--</strong></div>
+								<div class="stat-card"><span class="muted">Tipo</span><strong id="profileUserType">Aluno</strong></div>
+							</div>
+						</div>
+
+						<div class="page-card profile-security-card">
+							<span class="section-label">Segurança</span>
+							<h2 class="card-title">Trocar senha</h2>
+							<form id="passwordForm" class="page-stack" novalidate>
+								<div class="field">
+									<label for="newPassword">Nova senha</label>
+									<div class="profile-password-shell">
+										<input id="newPassword" name="password" type="password" required minlength="4">
+										<button class="profile-password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false" data-toggle-password="newPassword">
+											<i data-lucide="eye"></i>
+										</button>
+									</div>
+								</div>
+								<div class="field">
+									<label for="confirmPassword">Confirmar senha</label>
+									<div class="profile-password-shell">
+										<input id="confirmPassword" name="confirm_password" type="password" required minlength="4">
+										<button class="profile-password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false" data-toggle-password="confirmPassword">
+											<i data-lucide="eye"></i>
+										</button>
+									</div>
+								</div>
+								<div class="action-row centered-action">
+									<button class="btn-primary" type="submit">Atualizar senha <i data-lucide="lock-keyhole"></i></button>
+								</div>
+								<p class="helper-text" id="passwordMessage" aria-live="polite"></p>
+							</form>
+						</div>
+					</div>
+
+					<div class="page-card">
+						<span class="section-label">Dados pessoais</span>
+						<h2 class="card-title">Contato e foto</h2>
+						<form id="profileForm" class="page-stack" enctype="multipart/form-data" novalidate>
+							<div class="inline-list editable-contact-list">
+								<div class="mini-item editable-mini-item">
+									<strong>Email</strong>
+									<div class="editable-field">
+										<input id="profileEmail" name="email" type="email" required readonly>
+										<span id="profileEmailView" hidden>--</span>
+										<button class="edit-field-btn" type="button" aria-label="Editar email" data-edit-target="profileEmail">
+											<i data-lucide="pencil"></i>
+										</button>
+									</div>
+								</div>
+								<div class="mini-item editable-mini-item">
+									<strong>Telefone</strong>
+									<div class="editable-field">
+										<input id="profilePhone" name="telefone" type="tel" placeholder="Ex: +244 900 000 000" readonly>
+										<span id="profilePhoneView" hidden>--</span>
+										<button class="edit-field-btn" type="button" aria-label="Editar telefone" data-edit-target="profilePhone">
+											<i data-lucide="pencil"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+							<input id="profilePhotoInput" name="foto" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+							<div class="action-row">
+								<button class="btn-primary" type="submit">Guardar alterações <i data-lucide="save"></i></button>
+							</div>
+							<p class="helper-text" id="profileMessage" aria-live="polite"></p>
+						</form>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script src="../js/i18n.js?v=20260530-14"></script>
+	<script src="../js/include-sidebar.js?v=20260530-10"></script>
+    
+	<script src="../js/perfil.js?v=20260530-2"></script>
+	<script src="../js/dashboard.js?v=20260530-11"></script>
+</body>
+</html>

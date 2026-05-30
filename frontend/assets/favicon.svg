@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="AvaliaDocente">
+  <rect width="64" height="64" rx="14" fill="#4f46e5"/>
+  <path d="M32 10l18 8v13c0 12-7.5 20-18 23-10.5-3-18-11-18-23V18l18-8z" fill="#ffffff" opacity="0.95"/>
+  <path d="M24 32l5 5 12-14" fill="none" stroke="#4f46e5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="32" y="51" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="700" fill="#4f46e5">AD</text>
+</svg>

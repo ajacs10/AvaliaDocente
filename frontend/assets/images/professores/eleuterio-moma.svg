@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="Eleuterio Moma">
+  <rect width="240" height="240" fill="#fef3c7"/>
+  <circle cx="120" cy="92" r="44" fill="#d97706"/>
+  <path d="M44 224c10-48 42-76 76-76s66 28 76 76" fill="#b45309"/>
+  <text x="120" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">EM</text>
+</svg>

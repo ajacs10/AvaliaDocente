@@ -1,0 +1,37 @@
+{
+  "lang": "pt",
+  "translations": {
+    "Olá": "Olá",
+    "Ambiente seguro e anônimo.": "Ambiente seguro e anônimo.",
+    "Suas respostas são confidenciais e não podem ser rastreadas.": "Suas respostas são confidenciais e não podem ser rastreadas.",
+    "Estudante": "Estudante",
+    "Avaliar professor": "Avaliar professor",
+    "Minhas avaliações": "Minhas avaliações",
+    "Perfil": "Perfil",
+    "Dúvidas": "Dúvidas",
+    "Sair": "Sair",
+    "Novo registro": "Novo registro",
+    "Dados da avaliação": "Dados da avaliação",
+    "Escolha o professor, a disciplina e descreva sua percepção com base nos critérios de ensino.": "Escolha o professor, a disciplina e descreva sua percepção com base nos critérios de ensino.",
+    "Professor": "Professor",
+    "Cadeira": "Cadeira",
+    "Departamento": "Curso",
+    "Curso": "Curso",
+    "Metodologia": "Metodologia",
+    "Didática": "Didática",
+    "Comentário": "Comentário",
+    "Salvar avaliação": "Salvar avaliação",
+    "Limpar campos": "Limpar campos",
+    "Resumo rápido": "Resumo rápido",
+    "Catálogo de professores": "Catálogo de professores",
+    "Contato e foto": "Contato e foto",
+    "Guardar alterações": "Guardar alterações",
+    "Trocar senha": "Trocar senha",
+    "Atualizar senha": "Atualizar senha"
+    ,
+    "A processar...": "A processar...",
+    "Informe o numero de estudante e a senha.": "Informe o número de estudante e a senha.",
+    "Credenciais invalidas. Verifique numero de estudante e senha.": "Credenciais inválidas. Verifique número de estudante e senha.",
+    "Nao foi possivel autenticar agora. Tente novamente.": "Não foi possível autenticar agora. Tente novamente."
+  }
+}

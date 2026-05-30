@@ -1,0 +1,992 @@
+/* ========================================================================== 
+   SHARED PAGE STYLES FOR SIDEBAR SECTIONS
+   ========================================================================== */
+.page-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 40px;
+    min-width: 0;
+}
+
+.page-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 8px 0 4px;
+}
+
+.page-hero h1 {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: #0f172a;
+}
+
+.page-hero p {
+    margin: 8px 0 0;
+    color: #64748b;
+    max-width: 72ch;
+    line-height: 1.6;
+}
+
+.page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.page-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    min-width: 0;
+}
+
+.page-stack {
+    display: grid;
+    gap: 16px;
+}
+
+.evaluation-flow {
+    display: grid;
+    gap: 24px;
+}
+
+.catalog-section {
+    min-width: 0;
+}
+
+.catalog-section.is-evaluating > .section-label,
+.catalog-section.is-evaluating > .card-title,
+.catalog-section.is-evaluating > .card-text {
+    display: none;
+}
+
+.evaluation-form-card {
+    scroll-margin-top: 24px;
+    position: relative;
+}
+
+.evaluation-form-card .back-to-catalog-top {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 4;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-weight: 700;
+}
+.evaluation-form-card .back-to-catalog-top:hover {
+    background: rgba(15,23,42,0.03);
+    color: var(--text);
+}
+
+.section-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    color: #0f172a;
+}
+
+.card-text {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.65;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.criteria-block {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.criteria-block-header {
+    margin-bottom: 16px;
+}
+
+.criteria-block-header h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    color: #0f172a;
+}
+
+.criteria-block-header p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #ffffff;
+    color: #0f172a;
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.field textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.helper-text {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.discipline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 620px));
+    justify-content: start;
+    gap: 18px;
+    width: 100%;
+    max-width: 1258px;
+    margin: 0;
+    padding-left: clamp(12px, 3vw, 56px);
+    box-sizing: border-box;
+}
+
+.discipline-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 8px;
+    padding: 22px;
+}
+
+.discipline-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.discipline-card-header .card-title {
+    margin-bottom: 6px;
+}
+
+.discipline-score {
+    min-width: 88px;
+    padding: 10px 12px;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    background: #eff6ff;
+    text-align: center;
+}
+
+.discipline-score span {
+    display: block;
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.discipline-score strong {
+    display: block;
+    margin-top: 2px;
+    color: #1d4ed8;
+    font-size: 1.45rem;
+    line-height: 1;
+}
+
+.discipline-card-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+}
+
+.discipline-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.metric-row {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.metric-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.metric-row span {
+    color: #475569;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.metric-row strong {
+    color: #0f172a;
+    font-size: 0.94rem;
+}
+
+.metric-track {
+    width: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2e8f0;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: #2563eb;
+}
+
+.discipline-comments {
+    display: grid;
+    gap: 12px;
+}
+
+.discipline-comments-header h4 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1rem;
+}
+
+.discipline-comments-header p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 0.86rem;
+}
+
+.discipline-comment-item {
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.discipline-comment-label {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.discipline-comment-item p {
+    margin: 0;
+    color: #334155;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.inline-list {
+    display: grid;
+    gap: 12px;
+}
+
+.mini-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    min-width: 0;
+}
+
+.mini-item strong {
+    color: #0f172a;
+}
+
+.mini-item span,
+.muted {
+    color: #64748b;
+    overflow-wrap: anywhere;
+}
+
+.my-evaluation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.my-evaluation-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.my-evaluation-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #1d4ed8;
+    background: #eff6ff;
+}
+
+.my-evaluation-icon svg,
+.my-evaluation-icon i {
+    width: 20px;
+    height: 20px;
+}
+
+.my-evaluation-main strong,
+.my-evaluation-main span,
+.my-evaluation-main small {
+    display: block;
+}
+
+.my-evaluation-main strong {
+    color: #0f172a;
+    line-height: 1.3;
+}
+
+.my-evaluation-main span {
+    margin-top: 3px;
+    color: #475569;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.my-evaluation-main small {
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+
+.my-evaluation-score {
+    min-width: 76px;
+    text-align: right;
+}
+
+.my-evaluation-score strong {
+    display: block;
+    color: #0f172a;
+    font-size: 1.25rem;
+}
+
+.my-evaluation-score span {
+    display: block;
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.76rem;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    border-radius: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-card strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 1.4rem;
+    color: #0f172a;
+}
+
+.details-list details {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #f8fafc;
+    padding: 14px 16px;
+}
+
+.details-list details + details {
+    margin-top: 12px;
+}
+
+.details-list summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.details-list summary::-webkit-details-marker {
+    display: none;
+}
+
+.details-list p {
+    margin: 10px 0 0;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.centered-action {
+    justify-content: center;
+}
+
+.profile-password-shell,
+.editable-field {
+    position: relative;
+}
+
+.profile-password-shell input,
+.editable-field input {
+    padding-right: 48px;
+}
+
+.profile-password-toggle,
+.edit-field-btn {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.profile-password-toggle svg,
+.edit-field-btn svg {
+    width: 17px;
+    height: 17px;
+}
+
+.editable-field input[readonly] {
+    border-color: transparent;
+    background: transparent;
+    color: #475569;
+    box-shadow: none;
+    cursor: default;
+}
+
+.editable-field input:not([readonly]) {
+    background: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+}
+
+.editable-contact-list {
+    margin-bottom: 6px;
+}
+
+.editable-mini-item {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: center;
+    padding: 12px 14px;
+}
+
+.editable-mini-item .editable-field {
+    min-width: 0;
+    width: 100%;
+}
+
+.editable-mini-item .editable-field input {
+    font-weight: 600;
+}
+
+.profile-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.profile-side-column {
+    display: grid;
+    gap: 16px;
+}
+
+.profile-id-card {
+    padding: 18px;
+    align-self: start;
+}
+
+.profile-id-card .section-label {
+    margin-bottom: 10px;
+}
+
+.profile-id-card .card-title {
+    margin-bottom: 4px;
+}
+
+.profile-id-card .card-text {
+    margin-bottom: 0;
+}
+
+.profile-id-stats {
+    margin-top: 14px;
+    gap: 10px;
+}
+
+.profile-id-stats .stat-card {
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.profile-id-stats .stat-card strong {
+    margin-top: 4px;
+    font-size: 1.05rem;
+}
+
+.profile-security-card {
+    padding: 18px;
+    width: min(100%, 360px);
+}
+
+.profile-security-card .card-title {
+    margin-bottom: 14px;
+}
+
+.profile-photo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 0;
+    background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    overflow: hidden;
+    flex: 0 0 auto;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 10px 22px rgba(79, 70, 229, 0.2);
+}
+
+.profile-photo:hover {
+    outline: 3px solid #c7d2fe;
+}
+
+.profile-photo span,
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-photo span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-photo img {
+    object-fit: cover;
+    display: block;
+}
+
+/* Perfil modal */
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+}
+.profile-modal[hidden] { display: none; }
+.profile-modal-backdrop {
+    position: absolute; inset: 0; background: rgba(2,6,23,0.45);
+}
+.profile-modal-content {
+    position: relative; background: #fff; border-radius: 12px; padding: 18px; width: 320px; box-shadow: 0 12px 40px rgba(2,6,23,0.2); z-index: 2;
+}
+.profile-modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
+.profile-modal-actions button { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+.profile-modal-actions #openProfileBtn { background: var(--primary); color:#fff; }
+.profile-modal-actions #closeProfileBtn { background: transparent; border:1px solid #e2e8f0; }
+
+body.modal-open { overflow: hidden; }
+
+.hidden-select {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========================================================================== 
+   PROFESSOR CATALOG & CARDS (CLEANED & UNIFIED)
+   ========================================================================== */
+.professor-catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 16px;
+}
+
+.professor-catalog.has-selected-card {
+    grid-template-columns: minmax(280px, 340px);
+}
+
+/* O card agora é estruturado de forma consistente em Grid Vertical */
+.professor-card {
+    width: 100%;
+    min-height: 320px;
+    display: grid;
+    grid-template-rows: 150px 1fr auto;
+    gap: 16px;
+    text-align: center;
+    border: 1px solid #e6eef8;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 16px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.professor-card:hover,
+.professor-card.is-selected {
+    border-color: var(--primary, #4338ca);
+    background: #f8fafc;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Acessibilidade de foco para a nova div interativa */
+.professor-card:focus-visible {
+    outline: 2px solid var(--primary, #4338ca);
+    outline-offset: 2px;
+}
+
+.professor-card.is-selected {
+    background: #eef2ff;
+    border-color: var(--primary, #4338ca);
+}
+
+.professor-card[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.78;
+    transform: none;
+    box-shadow: none;
+    border-color: #e2e8f0;
+    background: #f8fafc;
+}
+
+/* Container da Foto */
+.professor-photo {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e293b, #4338ca);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    position: relative;
+}
+
+.professor-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Badge de Estado Embutido na Imagem */
+.professor-evaluated-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: #047857;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.professor-top-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: calc(100% - 16px);
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f59e0b;
+    color: #111827;
+    box-shadow: 0 8px 18px rgba(146, 64, 14, 0.24);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.professor-top-badge svg {
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+}
+
+/* Informações do Card */
+.professor-card-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.professor-card strong,
+.professor-card span,
+.professor-card small {
+    display: block;
+}
+
+.professor-card strong {
+    color: #0f172a;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+}
+
+.professor-card span {
+    font-size: 0.86rem;
+    line-height: 1.35;
+    color: #64748b;
+}
+
+.professor-card small {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+/* Linha de Ações */
+.professor-card-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.professor-card-action {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--primary, #4338ca);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background-color 0.15s ease;
+}
+
+.professor-card-action:hover:not(:disabled) {
+    filter: brightness(0.95);
+}
+
+.professor-card.is-evaluated .professor-card-action {
+    background: #eef2ff;
+    color: var(--primary, #4338ca);
+    cursor: not-allowed;
+}
+
+.professor-card-action:disabled {
+    cursor: not-allowed;
+}
+
+.professor-view-profile {
+    background: transparent;
+    border: 1px solid var(--border, #e2e8f0);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: var(--muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.professor-view-profile:hover { 
+    color: var(--text, #0f172a); 
+    background: rgba(15,23,42,0.03); 
+}
+
+/* ========================================================================== 
+   MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .page-grid,
+    .profile-layout,
+    .field-grid,
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-hero {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-content {
+        padding: 24px 20px;
+    }
+
+    .page-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .page-card {
+        padding: 20px;
+    }
+
+    .discipline-grid,
+    .discipline-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .discipline-card-header {
+        flex-direction: column;
+    }
+
+    .discipline-score {
+        width: 100%;
+        text-align: left;
+    }
+
+    .mini-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .my-evaluation-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .my-evaluation-score {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-content {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .page-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    
+    .professor-catalog {
+        grid-template-columns: 1fr;
+    }
+}

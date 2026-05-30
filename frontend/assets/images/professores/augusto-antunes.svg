@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="Augusto Antunes">
+  <rect width="240" height="240" fill="#dbeafe"/>
+  <circle cx="120" cy="92" r="44" fill="#2563eb"/>
+  <path d="M44 224c10-48 42-76 76-76s66 28 76 76" fill="#1d4ed8"/>
+  <text x="120" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">AA</text>
+</svg>

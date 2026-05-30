@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AvaliaDocente</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/login.css?v=20260529-2">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="login-left">
+      <div class="login-box">
+        <h1>Recuperar acesso</h1>
+        <p id="recoveryIntro">Informe o seu email institucional. Enviaremos um link seguro para trocar a senha.</p>
+
+        <form id="recoveryForm" novalidate>
+          <div id="recoveryRequestFields">
+            <label for="recoveryEmail">Email institucional</label>
+            <input id="recoveryEmail" type="email" placeholder="seuemail@dominio.com" required>
+          </div>
+
+          <div id="recoveryResetFields" hidden>
+            <label for="recoveryPassword">Nova senha</label>
+            <input id="recoveryPassword" type="password" placeholder="Mínimo 4 caracteres" minlength="4">
+
+            <label for="recoveryConfirm">Confirmar nova senha</label>
+            <input id="recoveryConfirm" type="password" placeholder="Repita a nova senha" minlength="4">
+          </div>
+
+          <p class="form-message" id="recoveryMessage" aria-live="polite"></p>
+
+          <button id="recoverySubmit" type="submit">Enviar link por email</button>
+          <div class="recover">
+            <a href="./login.html">Voltar ao login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="login-right" aria-hidden="true">
+      <div class="overlay">
+        <h2>Recuperação segura de acesso</h2>
+        <p>O link recebido por email abre a etapa segura para definir uma nova senha.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/recuperar-acesso.js?v=20260530-2"></script>
+</body>
+</html>

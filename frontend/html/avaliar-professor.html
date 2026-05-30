@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>AvaliaDocente</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+	<link rel="stylesheet" href="../css/variables.css">
+	<link rel="stylesheet" href="../css/global.css">
+	<link rel="stylesheet" href="../css/dashboard.css?v=20260530-10">
+	<link rel="stylesheet" href="../css/pages.css?v=20260530-12">
+	<link rel="stylesheet" href="../css/components/sidebar.css?v=20260530-9">
+	<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+	<div class="dashboard-container">
+		<div id="sidebar-root"></div>
+
+		<main class="dashboard-main">
+			<header class="dash-header">
+				<div class="welcome-text">
+					<h1 id="dashboardGreeting">Olá</h1>
+					<p class="header-security"><strong>Ambiente seguro e anônimo.</strong> Suas respostas são confidenciais e não podem ser rastreadas.</p>
+				</div>
+				<div class="header-actions">
+					<button class="notification-btn" aria-label="Notificações">
+						<i data-lucide="bell"></i>
+					</button>
+					<div class="user-profile">
+						<div class="avatar">ES</div>
+						<div class="user-info">
+							<span class="user-name" id="dashboardUserName">Estudante</span>
+							<span class="user-role">Estudante</span>
+						</div>
+						<i data-lucide="chevron-down" class="dropdown-icon"></i>
+					</div>
+				</div>
+			</header>
+
+			<section class="page-content">
+				<div class="evaluation-flow">
+					<div class="catalog-section" id="catalogSection">
+						<div class="professor-catalog" id="professorCatalog"></div>
+					</div>
+
+					<div class="page-card evaluation-form-card" id="evaluationFormCard" hidden>
+						<h2 class="card-title">Dados da avaliação</h2>
+						<button class="btn-secondary-flat back-to-catalog-top" id="backToCatalog" type="button" aria-label="Voltar ao catálogo"><i data-lucide="chevrons-left"></i> Voltar</button>
+						<p class="card-text">Depois de escolher um professor no catálogo, confirme os dados e preencha as notas.</p>
+
+                        
+
+						<form id="evaluationForm" novalidate>
+						<div class="field-grid" style="margin-top:20px;">
+							<div class="field">
+								<label for="professor">Professor</label>
+								<select id="professor" class="hidden-select" required>
+									<option value="">Carregando professores...</option>
+								</select>
+								<input id="professorNome" type="text" readonly placeholder="Clique num card do catálogo">
+							</div>
+							<div class="field">
+								<label for="disciplina">Cadeira</label>
+								<input id="disciplina" type="text" readonly placeholder="Clique num card do catálogo">
+							</div>
+							<div class="field">
+								<label for="departamento">Curso</label>
+								<input id="departamento" type="text" readonly placeholder="Clique num card do catálogo">
+							</div>
+						</div>
+
+						<div class="criteria-block">
+							<div class="criteria-block-header">
+								<span class="section-label">Bloco 1</span>
+								<h3>Didática e Metodologia</h3>
+								<p>O "como" o professor ensina.</p>
+							</div>
+							<div class="field-grid">
+								<div class="field">
+									<label for="clareza">Clareza</label>
+									<select id="clareza" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="dinamismo">Dinamismo</label>
+									<select id="dinamismo" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="recursos">Recursos</label>
+									<select id="recursos" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="metodologia">Metodologia</label>
+									<select id="metodologia" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="didatica">Didática</label>
+									<select id="didatica" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="criteria-block">
+							<div class="criteria-block-header">
+								<span class="section-label">Bloco 2</span>
+								<h3>Avaliação e Feedback</h3>
+								<p>A justiça nas notas e o retorno dado ao estudante.</p>
+							</div>
+							<div class="field-grid">
+								<div class="field">
+									<label for="criterios_avaliacao">Critérios</label>
+									<select id="criterios_avaliacao" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="retorno">Retorno</label>
+									<select id="retorno" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="criteria-block">
+							<div class="criteria-block-header">
+								<span class="section-label">Bloco 3</span>
+								<h3>Relação e Apoio</h3>
+								<p>O ambiente em sala, respeito e disponibilidade.</p>
+							</div>
+							<div class="field-grid">
+								<div class="field">
+									<label for="disponibilidade">Disponibilidade</label>
+									<select id="disponibilidade" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="respeito">Respeito</label>
+									<select id="respeito" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1 — Muito Fraco</option><option value="2">2 — Fraco</option><option value="3">3 — Regular</option><option value="4">4 — Bom</option><option value="5">5 — Muito Bom</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="pontualidade">Pontualidade</label>
+									<select id="pontualidade" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="assiduidade">Assiduidade</label>
+									<select id="assiduidade" required disabled>
+										<option value="">1 a 5</option>
+										<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="field" style="margin-top:16px;">
+							<label for="comentario">Texto livre (opcional)</label>
+							<textarea id="comentario" placeholder="Sugestões: o que gostou mais nas aulas e o que pode ser melhorado?" disabled></textarea>
+						</div>
+
+						<div class="action-row" style="margin-top:18px;">
+							<button class="btn-primary" id="submitEvaluation" type="submit" disabled>Salvar avaliação <i data-lucide="arrow-right"></i></button>
+						</div>
+						<p class="helper-text" id="evaluationMessage" aria-live="polite" style="margin-top:12px;"></p>
+						</form>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script src="../js/i18n.js?v=20260530-14"></script>
+	<script src="../js/include-sidebar.js?v=20260530-10"></script>
+    
+	<script src="../js/api/professor-api.js?v=20260530-4"></script>
+	<script src="../js/api/avaliacao-api.js?v=20260530-4"></script>
+	<script src="../js/avaliar.js?v=20260530-8"></script>
+	<script src="../js/dashboard.js?v=20260530-11"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AvaliaDocente</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css?v=20260530-11">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=20260530-9">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div id="sidebar-root"></div>
+
+        <main class="dashboard-main">
+            <header class="dash-header">
+                <div class="welcome-text">
+                    <h1 id="dashboardGreeting">Painel do Professor</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn" aria-label="Notificações">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <div class="user-profile">
+                        <div class="avatar">PR</div>
+                        <div class="user-info">
+                            <span class="user-name" id="dashboardUserName">Professor</span>
+                            <span class="user-role">Professor</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="dropdown-icon"></i>
+                    </div>
+                </div>
+            </header>
+
+            <section class="evaluations-section professor-report-section">
+                <div class="section-title">
+                    <h2 class="is-hidden">Relatório do Professor</h2>
+                </div>
+                <div class="evaluations-grid">
+                    <div class="eval-detail-card">
+                        <div class="detail-header">
+                            <div>
+                                <span class="sub">Relatório agregado</span>
+                                <h3>Pontos por critério</h3>
+                                <p class="meta">Notas médias de todas as disciplinas avaliadas.</p>
+                            </div>
+                        </div>
+                        <div class="criteria-list" id="professorRelatorioLista"></div>
+                    </div>
+
+                    <div class="eval-history-card">
+                        <div class="history-header">
+                            <h3>Pontos específicos (anónimos)</h3>
+                            <p>Comentários sem identificação dos estudantes.</p>
+                        </div>
+                        <div class="history-list" id="professorFeedbackList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="dash-footer-cta">
+                <div class="cta-content">
+                    <div class="cta-icon"><i data-lucide="eye-off"></i></div>
+                    <div>
+                        <h3>Privacidade preservada em todas as respostas</h3>
+                        <p>O painel não mostra aluno, matrícula, email ou qualquer identificador pessoal.</p>
+                    </div>
+                </div>
+                <button class="btn-white" onclick="window.location.href='duvidas.html'">Ver políticas de anonimato <i data-lucide="arrow-right"></i></button>
+            </footer>
+        </main>
+    </div>
+
+    <script src="../js/i18n.js?v=20260530-14"></script>
+    <script src="../js/include-sidebar.js?v=20260530-10"></script>
+    
+    <script src="../js/api/professor-api.js?v=20260530-4"></script>
+    <script src="../js/api/relatorio-professor-api.js"></script>
+    <script src="../js/dashboard.js?v=20260530-11"></script>
+    <script src="../js/dashboard-professor.js?v=20260530-14"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

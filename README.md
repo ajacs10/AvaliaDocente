@@ -240,6 +240,10 @@ Após autenticação:
 
 ---
 
+Desenvolvido por: Ana Juliana avelino dacosta sobrinho
+
+---
+
 ## 📊 Modelo Entidade-Relacionamento (ERD)
 
 ```text

@@ -10,11 +10,11 @@ O **Sistema de Avaliação de Professores** é uma aplicação web desenvolvida 
 
 As principais imagens do projeto estão na raiz do repositório e em `frontend/`:
 
+![Página de login](page_img_login.png)
+
 ![Dashboard](dasbord.png)
 
 ![Avaliar professor](avaliar_professor.png)
-
-![Página de login](page_img_login.png)
 
 ![Perguntas frequentes](perguntas_frequentes.png)
 

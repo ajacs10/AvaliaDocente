@@ -15,15 +15,10 @@ try {
                 d.nome AS disciplina_nome, d.sigla, d.ano_academico, d.semestre, d.status, d.curso,
                 COUNT(a.id) AS total_avaliacoes,
                 ROUND(AVG((
-                    COALESCE(a.clareza, a.metodologia, 0) +
-                    COALESCE(a.dinamismo, a.metodologia, 0) +
-                    COALESCE(a.recursos, a.metodologia, 0) +
-                    COALESCE(a.criterios_avaliacao, a.didatica, 0) +
-                    COALESCE(a.retorno, a.didatica, 0) +
-                    COALESCE(a.disponibilidade, a.assiduidade, 0) +
-                    COALESCE(a.respeito, a.assiduidade, 0) +
-                    COALESCE(a.pontualidade, a.assiduidade, 0)
-                ) / 8), 1) AS media_avaliacoes
+                    COALESCE(a.metodologia, 0) +
+                    COALESCE(a.didatica, 0) +
+                    COALESCE(a.assiduidade, 0)
+                ) / 3), 1) AS media_avaliacoes
          FROM professores p
          LEFT JOIN disciplinas d ON d.id = p.disciplina_id
          LEFT JOIN avaliacoes a ON a.professor_id = p.id';

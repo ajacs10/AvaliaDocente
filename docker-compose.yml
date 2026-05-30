@@ -1,10 +1,7 @@
 services:
-
   app:
     image: php:8.2-apache
-
     container_name: sistema_avaliacao_app
-
     restart: always
 
     ports:
@@ -27,26 +24,27 @@ services:
 
   mysql:
     image: mysql:8.0
-
     container_name: sistema_avaliacao_mysql
-
     restart: always
 
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: avaliadocente
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: senha
 
     ports:
       - "3306:3306"
 
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./backend/database/seeds.sql:/docker-entrypoint-initdb.d/seeds.sql:ro
+      - ./backend/database/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-
     container_name: sistema_avaliacao_phpmyadmin
-
     restart: always
 
     ports:
@@ -54,7 +52,9 @@ services:
 
     environment:
       PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: root
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
 
     depends_on:
       - mysql

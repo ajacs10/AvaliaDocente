@@ -6,6 +6,18 @@ O **Sistema de Avaliação de Professores** é uma aplicação web desenvolvida 
 
 ---
 
+## 🖼️ Capturas de Tela
+
+As principais imagens do projeto estão na raiz do repositório e em `frontend/`:
+
+* [Dashboard](dasbord.png)
+* [Avaliar professor](avaliar_professor.png)
+* [Página de login](page_img_login.png)
+* [Perguntas frequentes](perguntas_frequentes.png)
+* [Template da home/dashboard](frontend/templete_home_dasbord.png)
+
+---
+
 ## 📚 Funcionalidades
 
 ### Para Estudantes
@@ -176,16 +188,16 @@ As contas docentes podem autenticar utilizando:
 
 | ID     | Professor                       | Email                                                                                     |
 | ------ | ------------------------------- | ----------------------------------------------------------------------------------------- |
-| 990001 | Professor Rouget                | [rouget@avaliadocente.local](mailto:rouget@avaliadocente.local)                           |
-| 990002 | Professor Tawana                | [tawana@avaliadocente.local](mailto:tawana@avaliadocente.local)                           |
-| 990003 | Wilson Paiva                    | [wilsonpaiva@avaliadocente.local](mailto:wilsonpaiva@avaliadocente.local)                 |
-| 990004 | Professor Doutor Yoelkis Victor | [doutoryoelkisvictor@avaliadocente.local](mailto:doutoryoelkisvictor@avaliadocente.local) |
-| 990005 | Prof. Edilson Cruz              | [edilsoncruz@avaliadocente.local](mailto:edilsoncruz@avaliadocente.local)                 |
-| 990006 | Professor Maximo                | [maximo@avaliadocente.local](mailto:maximo@avaliadocente.local)                           |
-| 990007 | Professor Paulo Vieira          | [paulovieira@avaliadocente.local](mailto:paulovieira@avaliadocente.local)                 |
-| 990008 | Professor Sanchez               | [sanchez@avaliadocente.local](mailto:sanchez@avaliadocente.local)                         |
-| 990009 | Professor Afonso                | [afonso@avaliadocente.local](mailto:afonso@avaliadocente.local)                           |
-| 990010 | Professor Conde                 | [conde@avaliadocente.local](mailto:conde@avaliadocente.local)                             |
+| 990001 | Professor Rouget | Programação III (IA) | [rouget@avaliadocente.local](mailto:rouget@avaliadocente.local) |
+| 990002 | Professor Tawana | Química Fundamental, Química Orgânica | [tawana@avaliadocente.local](mailto:tawana@avaliadocente.local) |
+| 990003 | Wilson Paiva | Base de Dados, Base de Dados II | [wilsonpaiva@avaliadocente.local](mailto:wilsonpaiva@avaliadocente.local) |
+| 990004 | Professor Doutor Yoelkis Victor | Análise de Sistemas de Informação, Programação IV - Linguagens e Tecnologias WEB | [doutoryoelkisvictor@avaliadocente.local](mailto:doutoryoelkisvictor@avaliadocente.local) |
+| 990005 | Prof. Edilson Cruz | Arquitectura de Computadores II, Sistemas Operativos I | [edilsoncruz@avaliadocente.local](mailto:edilsoncruz@avaliadocente.local) |
+| 990006 | Professor Maximo | Análise Matemática I, Física I, Física II | [maximo@avaliadocente.local](mailto:maximo@avaliadocente.local) |
+| 990007 | Professor Paulo Vieira | Álgebra Linear, Análise Matemática II, Análise Numérica Científica, Análise Matemática IV | [paulovieira@avaliadocente.local](mailto:paulovieira@avaliadocente.local) |
+| 990008 | Professor Sanchez | Fundamentos de Sistemas de Informação, Programação I - Algoritmos e Estruturas de Dados, Programação II | [sanchez@avaliadocente.local](mailto:sanchez@avaliadocente.local) |
+| 990009 | Professor Afonso | Língua Inglesa I, Língua Inglesa II, Língua Inglesa III | [afonso@avaliadocente.local](mailto:afonso@avaliadocente.local) |
+| 990010 | Professor Conde | Probabilidades e Estatística | [conde@avaliadocente.local](mailto:conde@avaliadocente.local) |
 
 ### Comportamento do Sistema
 

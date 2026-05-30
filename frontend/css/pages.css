@@ -195,14 +195,21 @@
 
 .discipline-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 620px));
-    justify-content: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
     width: 100%;
     max-width: 1258px;
     margin: 0;
     padding-left: clamp(12px, 3vw, 56px);
     box-sizing: border-box;
+}
+
+/* smaller screens: single column */
+@media (max-width: 760px) {
+    .discipline-grid {
+        grid-template-columns: 1fr;
+        padding-left: 12px;
+    }
 }
 
 .discipline-card {

@@ -7,6 +7,31 @@ document.addEventListener('DOMContentLoaded', function(){
     return window.sessionStorage.getItem(key) || window.localStorage.getItem(key) || fallback;
   };
 
+  // Ensure sessionStorage is hydrated from persistent login before reading values.
+  const hydrateSessionFromRememberedLogin = () => {
+    const keys = [
+      'sistema-avaliacao:authenticated',
+      'sistema-avaliacao:studentId',
+      'sistema-avaliacao:studentName',
+      'sistema-avaliacao:studentEmail',
+      'sistema-avaliacao:studentPhone',
+      'sistema-avaliacao:studentPhoto',
+      'sistema-avaliacao:studentCourse',
+      'sistema-avaliacao:studentYear',
+      'sistema-avaliacao:userType',
+      'sistema-avaliacao:professorId'
+    ];
+
+    keys.forEach((key) => {
+      const value = window.localStorage.getItem(key);
+      if (value !== null && window.sessionStorage.getItem(key) === null) {
+        window.sessionStorage.setItem(key, value);
+      }
+    });
+  };
+
+  hydrateSessionFromRememberedLogin();
+
   // path relative to pages in frontend/html/
   const componentPath = 'components/sidebar.html';
 

@@ -145,6 +145,14 @@ AND NOT EXISTS (
 );
 
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
+SELECT 'Prof. Edilson Cruz', @departamento_eisi, '../assets/images/professores/edilson-cruz.svg', d.id
+FROM disciplinas d
+WHERE d.nome = 'Sistemas Operativos I' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_primeiro AND d.curso = @curso_eisi
+AND NOT EXISTS (
+    SELECT 1 FROM professores p WHERE p.nome = 'Prof. Edilson Cruz' AND p.disciplina_id = d.id
+);
+
+INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
 SELECT 'Professor Doutor Yoelkis Victor', @departamento_eisi, '../assets/images/professores/yoelkis-victor.svg', d.id
 FROM disciplinas d
 WHERE d.nome = 'Análise de Sistemas de Informação' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
@@ -153,11 +161,11 @@ AND NOT EXISTS (
 );
 
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Eng. Eleuterio Moma', @departamento_eisi, '../assets/images/professores/eleuterio-moma.svg', d.id
+SELECT 'Professor Doutor Yoelkis Victor', @departamento_eisi, '../assets/images/professores/yoelkis-victor.svg', d.id
 FROM disciplinas d
-WHERE d.nome = 'Redes de Computadores' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
+WHERE d.nome = 'Programação IV - Linguagens e Tecnologias WEB' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
 AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Eng. Eleuterio Moma' AND p.disciplina_id = d.id
+    SELECT 1 FROM professores p WHERE p.nome = 'Professor Doutor Yoelkis Victor' AND p.disciplina_id = d.id
 );
 
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
@@ -185,6 +193,14 @@ AND NOT EXISTS (
 );
 
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
+SELECT 'Professor Paulo Vieira', @departamento_eisi, '../assets/images/professores/prof_14.svg', d.id
+FROM disciplinas d
+WHERE d.nome = 'Álgebra Linear' AND d.ano_academico = '1.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
+AND NOT EXISTS (
+    SELECT 1 FROM professores p WHERE p.nome = 'Professor Paulo Vieira' AND p.disciplina_id = d.id
+);
+
+INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
 SELECT 'Professor Sanchez', @departamento_eisi, '../assets/images/professores/prof_15.svg', d.id
 FROM disciplinas d
 WHERE d.nome = 'Programação I - Algoritmos e Estruturas de Dados' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
@@ -193,9 +209,26 @@ AND NOT EXISTS (
 );
 
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
+SELECT 'Professor Sanchez', @departamento_eisi, '../assets/images/professores/prof_15.svg', d.id
+FROM disciplinas d
+WHERE d.nome = 'Física III' AND d.ano_academico = '2.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
+AND NOT EXISTS (
+    SELECT 1 FROM professores p WHERE p.nome = 'Professor Sanchez' AND p.disciplina_id = d.id
+);
+
+
+INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
 SELECT 'Professor Afonso', @departamento_eisi, '../assets/images/professores/prof_16.svg', d.id
 FROM disciplinas d
-WHERE d.nome = 'Língua Inglesa I' AND d.ano_academico = '2.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
+WHERE d.nome = 'Língua Inglesa II' AND d.ano_academico = '2.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
+AND NOT EXISTS (
+    SELECT 1 FROM professores p WHERE p.nome = 'Professor Afonso' AND p.disciplina_id = d.id
+);
+
+INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
+SELECT 'Professor Afonso', @departamento_eisi, '../assets/images/professores/prof_16.svg', d.id
+FROM disciplinas d
+WHERE d.nome = 'Língua Inglesa III' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
 AND NOT EXISTS (
     SELECT 1 FROM professores p WHERE p.nome = 'Professor Afonso' AND p.disciplina_id = d.id
 );
@@ -243,14 +276,6 @@ WHERE u.id = 990001
 
 -- Additional professor seeds to reflect manual mappings and provide reproducibility
 -- Photo paths are NULL where no image exists; frontend uses initials as fallback.
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Maximo', @departamento_eisi, '../assets/images/professores/prof_13.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Física III' AND d.ano_academico = '2.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Maximo' AND p.disciplina_id = d.id
-);
-
 INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
 SELECT 'Professor Paulo Vieira', @departamento_eisi, '../assets/images/professores/prof_14.svg', d.id
 FROM disciplinas d

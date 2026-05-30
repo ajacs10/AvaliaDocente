@@ -1,16 +1,16 @@
 id	nome	IFNULL(d.nome,'')	IFNULL(d.ano_academico,'')	IFNULL(d.semestre,'')	IFNULL(p.departamento,'')
-1	Prof. Augusto Antunes	Computa��o Gr�fica	4.� Ano	2.� Semestre	Engenharia Inform�tica e Sistemas de Informa��o
-2	Professor Doutor Yoelkis Victor	Programa��o IV - Linguagens e Tecnologias WEB	4.� Ano	2.� Semestre	Engenharia Inform�tica e Sistemas de Informa��o
-3	Prof. Edilson Cruz	Arquitectura de Computadores I	3.º Ano	1.º Semestre	Engenharia Inform�tica e Sistemas de Informa��o
-4	Professor Doutor Yoelkis Victor	An�lise de Sistemas de Informa��o	4.� Ano	2.� Semestre	Engenharia Inform�tica e Sistemas de Informa��o
-5	Eng. Eleuterio Moma	Redes de Computadores	4.� Ano	2.� Semestre	Engenharia Inform�tica e Sistemas de Informa��o
-6	Professor Rougest	Programa��o III	4� Ano	1� Semestre	Engenharia Informática e Sistemas de Informação
-13	Professor Maximo	Física III	2.º Ano	2.º Semestre	Engenharia de Informática e Sistemas de Informação
+1	Prof. Augusto Antunes	Computação Gráfica	4.º Ano	2.º Semestre	Engenharia Informática e Sistemas de Informação
+2	Professor Doutor Yoelkis Victor	Programação IV - Linguagens e Tecnologias WEB	4.º Ano	2.º Semestre	Engenharia Informática e Sistemas de Informação
+3	Prof. Edilson Cruz	Arquitectura de Computadores I	3.º Ano	1.º Semestre	Engenharia Informática e Sistemas de Informação
+4	Professor Doutor Yoelkis Victor	Análise de Sistemas de Informação	4.º Ano	2.º Semestre	Engenharia Informática e Sistemas de Informação
+5	Eng. Eleuterio Moma	Redes de Computadores	4.º Ano	2.º Semestre	Engenharia Informática e Sistemas de Informação
+6	Professor Rouget	Programação III (IA)	4.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
+13	Professor Maximo	Análise Matemática I	2.º Ano	2.º Semestre	Engenharia de Informática e Sistemas de Informação
 14	Professor Paulo Vieira	Análise Numérica Científica	3.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 15	Professor Sanchez	Fundamentos de Sistemas de Informação	3.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 16	Professor Afonso	Língua Inglesa I	2.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 18	Professor Tawana	Química Fundamental	1.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 19	Professor Tawana	Química Orgânica	1.º Ano	2.º Semestre	Engenharia de Informática e Sistemas de Informação
-21	Wilson Paiva	Base de Dados II	4� Ano	1� Semestre	Engenharia de Informática e Sistemas de Informação
+21	Wilson Paiva	Base de Dados II	4.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 22	Wilson Paiva	Base de Dados	3.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação
 23	Wilson Paiva	Base de Dados II	4.º Ano	1.º Semestre	Engenharia de Informática e Sistemas de Informação

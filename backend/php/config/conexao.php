@@ -18,15 +18,14 @@ class Database {
             );
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $conn->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+            $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
             return $conn;
 
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
 
-            die("Erro na conexão: " . $e->getMessage());
-
+            // NÃO usar die (quebra JSON e causa loop no frontend)
+            throw new Exception("Erro de conexão com MySQL: " . $e->getMessage());
         }
     }
 }
-?>

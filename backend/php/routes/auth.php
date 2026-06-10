@@ -67,8 +67,8 @@ try {
     ]);
 
     $user = $stmt->fetch();
-    if (!$user) {
-        // fallback: try case-insensitive email or partial name match
+    if (!$user) 
+        {
         $altInput = mb_strtolower($studentId);
         $altStmt = $db->prepare("SELECT id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo {$professorIdSelect} FROM usuarios WHERE LOWER(email) = :email_lower OR LOWER(nome) LIKE :nome_like LIMIT 1");
         $altStmt->execute([

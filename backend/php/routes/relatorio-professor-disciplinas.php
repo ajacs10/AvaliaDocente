@@ -11,8 +11,6 @@ try {
         json_response(['success' => false, 'message' => 'professor_id ausente'], 400);
     }
 
-    // Fetch the canonical professor name. Some screens store professores.id,
-    // older sessions may still store usuarios.id for professor accounts.
     $pstmt = $db->prepare('SELECT nome FROM professores WHERE id = :id LIMIT 1');
     $pstmt->execute([':id' => $professorId]);
     $profRow = $pstmt->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +26,6 @@ try {
     }
     $profName = $profRow['nome'];
 
-    // discover available columns in avaliacoes
     $columns = [];
     $columnsStmt = $db->query('SHOW COLUMNS FROM avaliacoes');
     foreach ($columnsStmt->fetchAll(PDO::FETCH_ASSOC) as $column) {
@@ -55,7 +52,6 @@ try {
     $exprRespeito = $resolveMetricExpr($columns, ['respeito', 'assiduidade']);
     $exprPontualidade = $resolveMetricExpr($columns, ['pontualidade', 'assiduidade']);
 
-    // Aggregate per discipline linked to the canonical professor row.
     $sql = "
         SELECT
             p.id AS professor_row_id,

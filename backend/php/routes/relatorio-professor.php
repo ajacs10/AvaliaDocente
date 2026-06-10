@@ -86,7 +86,6 @@ try {
     $stmt->execute($params);
     $summary = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
-    // Only include comments from evaluations where the author is a student.
     $commentsSql = "
         SELECT a.comentario
         FROM avaliacoes a
@@ -104,7 +103,7 @@ try {
     $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 
     $total = (int)($summary['total_avaliacoes'] ?? 0);
-    // Define logical metrics and their preferred source columns (primary first)
+
     $metricSources = [
         'clareza' => ['clareza', 'metodologia'],
         'dinamismo' => ['dinamismo', 'metodologia'],
@@ -119,7 +118,7 @@ try {
         'assiduidade' => ['assiduidade']
     ];
 
-    // Build medias only for metrics that have at least one compatible source column.
+
     $medias = [];
     foreach ($metricSources as $metricKey => $preferredCols) {
         $hasAnySource = false;

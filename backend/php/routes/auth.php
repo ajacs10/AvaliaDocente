@@ -80,8 +80,8 @@ try {
         if (!$user) {
             json_response([
                 'success' => false,
-                'message' => 'Usuario nao encontrado.'
-            ], 404);
+                'message' => 'Credenciais invalidas.'
+            ]);
         }
     }
 
@@ -93,7 +93,7 @@ try {
         json_response([
             'success' => false,
             'message' => 'Credenciais invalidas.'
-        ], 401);
+        ]);
     }
 
     $professorId = null;

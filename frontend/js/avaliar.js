@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify({
-      professorId: professorSelect.value,
+      professorKey: professorSelect.value,
       scores,
       comentario: comentarioInput ? comentarioInput.value : ''
     }));
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const merged = [];
 
     lists.flat().forEach((professor) => {
-      const key = String(professor.id);
+      const key = professorKey(professor);
       if (seen.has(key)) return;
       seen.add(key);
       merged.push(professor);
@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return merged;
   };
+
+  const professorKey = (professor) => `${professor.id}:${professor.disciplina_id || ''}`;
 
   const setEvaluationEnabled = (enabled) => {
     [
@@ -162,7 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     list.innerHTML = professors.map((professor) => {
-      const evaluated = evaluatedProfessorIds.has(String(professor.id));
+      const key = professorKey(professor);
+      const evaluated = evaluatedProfessorIds.has(key);
       const photo = professor.foto_perfil
         ? `<img src="${escapeHtml(professor.foto_perfil)}" alt="">`
         : `<span>${escapeHtml((professor.nome || 'P').slice(0, 1).toUpperCase())}</span>`;
@@ -172,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="professor-card${evaluated ? ' is-evaluated' : ''}" 
              role="button" 
              tabindex="${evaluated ? '-1' : '0'}" 
-             data-id="${professor.id}" 
+             data-key="${escapeHtml(key)}" 
              ${evaluated ? 'aria-disabled="true"' : ''}>
           <div class="professor-photo">
             ${photo}
@@ -184,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <small>${escapeHtml(professor.ano_academico || 'Ano não informado')} | ${escapeHtml(professor.semestre || 'Semestre não informado')}</small>
           </div>
           <div class="professor-card-actions">
-            <button class="professor-card-action" type="button" data-id="${professor.id}" ${evaluated ? 'disabled' : ''}>
+            <button class="professor-card-action" type="button" data-key="${escapeHtml(key)}" ${evaluated ? 'disabled' : ''}>
               ${evaluated ? 'Já avaliado' : 'Avaliar'}
             </button>
           </div>
@@ -194,15 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     list.querySelectorAll('.professor-card').forEach((card) => {
       const actionBtn = card.querySelector('.professor-card-action');
-      const pid = card.dataset.id;
+      const selectedKey = card.dataset.key;
 
       // Centralização da lógica de seleção para evitar duplicação de código
       const handleSelection = () => {
-        if (evaluatedProfessorIds.has(String(pid))) {
+        if (evaluatedProfessorIds.has(String(selectedKey))) {
           setMessage('Já avaliou este professor nesta disciplina.', true);
           return;
         }
-        professorSelect.value = pid;
+        professorSelect.value = selectedKey;
         syncDepartment();
         saveDraft();
         hideCatalog();
@@ -260,32 +263,32 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const syncDepartment = () => {
-    const selected = professors.find((professor) => String(professor.id) === professorSelect.value);
+    const selected = professors.find((professor) => professorKey(professor) === professorSelect.value);
     if (professorNomeInput) professorNomeInput.value = selected ? (selected.nome || 'Professor') : '';
     if (disciplinaInput) disciplinaInput.value = selected ? (selected.disciplina_nome || 'Cadeira não informada') : '';
     if (departamentoInput) departamentoInput.value = selected ? (selected.curso || 'Curso não informado') : '';
     setEvaluationEnabled(Boolean(selected));
 
     document.querySelectorAll('.professor-card').forEach((card) => {
-      card.classList.toggle('is-selected', card.dataset.id === professorSelect.value);
+      card.classList.toggle('is-selected', card.dataset.key === professorSelect.value);
     });
   };
 
   const restoreDraft = () => {
     const draft = readDraft();
-    const professorId = draft.professorId ? String(draft.professorId) : '';
-    if (!professorId || evaluatedProfessorIds.has(professorId)) {
+    const selectedKey = draft.professorKey ? String(draft.professorKey) : '';
+    if (!selectedKey || evaluatedProfessorIds.has(selectedKey)) {
       clearDraft();
       return;
     }
 
-    const selected = professors.find((professor) => String(professor.id) === professorId);
+    const selected = professors.find((professor) => professorKey(professor) === selectedKey);
     if (!selected) {
       clearDraft();
       return;
     }
 
-    professorSelect.value = professorId;
+    professorSelect.value = selectedKey;
     syncDepartment();
 
     const scores = draft.scores || {};
@@ -324,14 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (alunoId && window.AvaliacaoAPI) {
         try {
           const evaluations = await AvaliacaoAPI.listar(alunoId);
-          evaluatedProfessorIds = new Set(evaluations.map((item) => String(item.professor_id)));
+          evaluatedProfessorIds = new Set(evaluations.map((item) => `${item.professor_id}:${item.disciplina_id || ''}`));
         } catch (error) {
           evaluatedProfessorIds = new Set();
         }
       }
 
       professorSelect.innerHTML = '<option value="">Selecione um professor</option>' + professors.map((professor) => (
-        `<option value="${professor.id}">${escapeHtml(professor.nome)} - ${escapeHtml(professor.disciplina_nome || 'Cadeira não informada')}</option>`
+        `<option value="${escapeHtml(professorKey(professor))}">${escapeHtml(professor.nome)} - ${escapeHtml(professor.disciplina_nome || 'Cadeira não informada')}</option>`
       )).join('');
       renderProfessorCatalog();
       syncDepartment();
@@ -380,7 +383,9 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
 
     const alunoId = Number(window.sessionStorage.getItem('sistema-avaliacao:studentId'));
-    const professorId = Number(professorSelect.value);
+    const selectedProfessor = professors.find((professor) => professorKey(professor) === professorSelect.value);
+    const professorId = Number(selectedProfessor ? selectedProfessor.id : 0);
+    const disciplinaId = Number(selectedProfessor ? selectedProfessor.disciplina_id : 0);
     const clareza = Number(clarezaInput.value);
     const dinamismo = Number(dinamismoInput.value);
     const recursos = Number(recursosInput.value);
@@ -399,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const scores = [clareza, dinamismo, recursos, criteriosAvaliacao, retorno, disponibilidade, respeito, pontualidade];
-    if (!professorId || scores.some((score) => score < 1 || score > 5) || metodologia < 1 || metodologia > 5 || didatica < 1 || didatica > 5 || assiduidade < 1 || assiduidade > 5) {
+    if (!professorId || !disciplinaId || scores.some((score) => score < 1 || score > 5) || metodologia < 1 || metodologia > 5 || didatica < 1 || didatica > 5 || assiduidade < 1 || assiduidade > 5) {
       setMessage('Escolha o professor e informe as notas de 1 a 5.', true);
       return;
     }
@@ -408,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
       await AvaliacaoAPI.criar({
         aluno_id: alunoId,
         professor_id: professorId,
+        disciplina_id: disciplinaId,
         clareza,
         dinamismo,
         recursos,
@@ -422,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         comentario: comentarioInput.value.trim()
       });
 
-      evaluatedProfessorIds.add(String(professorId));
+      evaluatedProfessorIds.add(`${professorId}:${disciplinaId}`);
       clearDraft();
       form.reset();
       renderProfessorCatalog();

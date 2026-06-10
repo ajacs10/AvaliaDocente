@@ -12,6 +12,7 @@ try {
     $disciplina_id = trim((string)($_GET['disciplina_id'] ?? ''));
 
     $sql = 'SELECT p.id, p.nome, p.departamento, p.foto_perfil, p.created_at,
+                d.id AS disciplina_id,
                 d.nome AS disciplina_nome, d.sigla, d.ano_academico, d.semestre, d.status, d.curso,
                 COUNT(a.id) AS total_avaliacoes,
                 ROUND(AVG((
@@ -20,8 +21,9 @@ try {
                     COALESCE(a.assiduidade, 0)
                 ) / 3), 1) AS media_avaliacoes
          FROM professores p
-         LEFT JOIN disciplinas d ON d.id = p.disciplina_id
-         LEFT JOIN avaliacoes a ON a.professor_id = p.id';
+         LEFT JOIN professor_disciplinas pd ON pd.professor_id = p.id
+         LEFT JOIN disciplinas d ON d.id = COALESCE(pd.disciplina_id, p.disciplina_id)
+         LEFT JOIN avaliacoes a ON a.professor_id = p.id AND a.disciplina_id = d.id';
     $params = [];
     $filters = [];
 
@@ -83,6 +85,7 @@ try {
     }
 
     $sql .= ' GROUP BY p.id, p.nome, p.departamento, p.foto_perfil, p.created_at,
+                    d.id,
                     d.nome, d.sigla, d.ano_academico, d.semestre, d.status, d.curso
               ORDER BY d.ano_academico ASC, d.semestre ASC, p.nome ASC';
     $stmt = $db->prepare($sql);

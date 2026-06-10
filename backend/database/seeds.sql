@@ -333,3 +333,42 @@ WHERE d.nome = 'Probabilidades e Estatística' AND d.curso = @curso_eisi
 AND NOT EXISTS (
     SELECT 1 FROM professores p WHERE p.nome = 'Professor Conde' AND p.disciplina_id = d.id
 );
+
+CREATE TABLE IF NOT EXISTS professor_disciplinas (
+    professor_id INT NOT NULL,
+    disciplina_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (professor_id, disciplina_id)
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TEMPORARY TABLE seed_professor_canon AS
+SELECT MIN(id) AS professor_id, nome
+FROM professores
+GROUP BY nome;
+
+INSERT INTO professor_disciplinas (professor_id, disciplina_id)
+SELECT c.professor_id, p.disciplina_id
+FROM professores p
+INNER JOIN seed_professor_canon c ON c.nome = p.nome
+WHERE p.disciplina_id IS NOT NULL
+ON DUPLICATE KEY UPDATE disciplina_id = VALUES(disciplina_id);
+
+UPDATE usuarios u
+INNER JOIN professores p ON p.id = u.professor_id
+INNER JOIN seed_professor_canon c ON c.nome = p.nome
+SET u.professor_id = c.professor_id;
+
+UPDATE avaliacoes a
+INNER JOIN professores p ON p.id = a.professor_id
+INNER JOIN seed_professor_canon c ON c.nome = p.nome
+SET a.disciplina_id = COALESCE(a.disciplina_id, p.disciplina_id),
+    a.professor_id = c.professor_id;
+
+DELETE p
+FROM professores p
+INNER JOIN seed_professor_canon c ON c.nome = p.nome
+WHERE p.id <> c.professor_id;
+
+UPDATE professores SET disciplina_id = NULL;
+
+DROP TEMPORARY TABLE seed_professor_canon;

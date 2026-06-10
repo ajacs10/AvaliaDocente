@@ -51,7 +51,7 @@ try {
                        d.semestre
                 FROM avaliacoes a
                 INNER JOIN professores p ON p.id = a.professor_id
-                LEFT JOIN disciplinas d ON d.id = p.disciplina_id';
+                LEFT JOIN disciplinas d ON d.id = a.disciplina_id';
         $params = [];
 
         if ($alunoId > 0) {
@@ -73,6 +73,7 @@ try {
         $data = request_json();
         $alunoId = (int)($data['aluno_id'] ?? 0);
         $professorId = (int)($data['professor_id'] ?? 0);
+        $disciplinaId = (int)($data['disciplina_id'] ?? 0);
         $clareza = (int)($data['clareza'] ?? -1);
         $dinamismo = (int)($data['dinamismo'] ?? -1);
         $recursos = (int)($data['recursos'] ?? -1);
@@ -91,10 +92,28 @@ try {
             $disponibilidade, $respeito, $pontualidade
         ];
 
-        if ($alunoId <= 0 || $professorId <= 0) {
+        if ($alunoId <= 0 || $professorId <= 0 || $disciplinaId <= 0) {
+            if ($alunoId > 0 && $professorId > 0 && $disciplinaId <= 0) {
+                $resolveDisciplina = $db->prepare('
+                    SELECT disciplina_id
+                    FROM professor_disciplinas
+                    WHERE professor_id = :professor_id
+                    ORDER BY disciplina_id ASC
+                    LIMIT 2
+                ');
+                $resolveDisciplina->execute([':professor_id' => $professorId]);
+                $professorDisciplinas = $resolveDisciplina->fetchAll(PDO::FETCH_COLUMN);
+
+                if (count($professorDisciplinas) === 1) {
+                    $disciplinaId = (int)$professorDisciplinas[0];
+                }
+            }
+        }
+
+        if ($alunoId <= 0 || $professorId <= 0 || $disciplinaId <= 0) {
             json_response([
                 'success' => false,
-                'message' => 'Dados de avaliação inválidos.'
+                'message' => 'Selecione um professor e uma disciplina válidos.'
             ], 422);
         }
 
@@ -119,11 +138,13 @@ try {
              FROM avaliacoes a
              WHERE a.aluno_id = :aluno_id
                AND a.professor_id = :professor_id
+               AND a.disciplina_id = :disciplina_id
              LIMIT 1'
         );
         $stmt->execute([
             ':aluno_id' => $alunoId,
-            ':professor_id' => $professorId
+            ':professor_id' => $professorId,
+            ':disciplina_id' => $disciplinaId
         ]);
 
         if ($stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -140,6 +161,7 @@ try {
         $insertData = [
             'aluno_id' => $alunoId,
             'professor_id' => $professorId,
+            'disciplina_id' => $disciplinaId,
             'clareza' => $clareza,
             'dinamismo' => $dinamismo,
             'recursos' => $recursos,

@@ -55,11 +55,11 @@ try {
     $exprRespeito = $resolveMetricExpr($columns, ['respeito', 'assiduidade']);
     $exprPontualidade = $resolveMetricExpr($columns, ['pontualidade', 'assiduidade']);
 
-    // aggregate per professor row (each row corresponds to a specific disciplina)
+    // Aggregate per discipline linked to the canonical professor row.
     $sql = "
         SELECT
             p.id AS professor_row_id,
-            p.disciplina_id,
+            d.id AS disciplina_id,
             d.nome AS disciplina_nome,
             COUNT(a.id) AS total_avaliacoes,
             ROUND(AVG({$exprClareza}), 1) AS media_clareza,
@@ -71,15 +71,16 @@ try {
             ROUND(AVG({$exprRespeito}), 1) AS media_respeito,
             ROUND(AVG({$exprPontualidade}), 1) AS media_pontualidade
         FROM professores p
-        LEFT JOIN disciplinas d ON d.id = p.disciplina_id
-        LEFT JOIN avaliacoes a ON a.professor_id = p.id
-        WHERE p.nome = :nome
-        GROUP BY p.id, p.disciplina_id, d.nome
+        LEFT JOIN professor_disciplinas pd ON pd.professor_id = p.id
+        LEFT JOIN disciplinas d ON d.id = COALESCE(pd.disciplina_id, p.disciplina_id)
+        LEFT JOIN avaliacoes a ON a.professor_id = p.id AND a.disciplina_id = d.id
+        WHERE p.id = :professor_id
+        GROUP BY p.id, d.id, d.nome
         ORDER BY d.nome ASC
     ";
 
     $stmt = $db->prepare($sql);
-    $stmt->execute([':nome' => $profName]);
+    $stmt->execute([':professor_id' => $professorId]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $result = [];
@@ -97,8 +98,11 @@ try {
             'pontualidade' => $total === 0 ? 0.0 : (float)($r['media_pontualidade'] ?? 0.0),
         ];
 
-        $commentsStmt = $db->prepare("\n            SELECT a.comentario, a.created_at\n            FROM avaliacoes a\n            INNER JOIN usuarios u ON u.id = a.aluno_id\n            WHERE a.professor_id = :professor_id\n              AND a.comentario IS NOT NULL\n              AND TRIM(a.comentario) <> ''\n              AND u.tipo = 'aluno'\n            ORDER BY a.created_at DESC\n            LIMIT 6\n        ");
-        $commentsStmt->execute([':professor_id' => (int)$r['professor_row_id']]);
+        $commentsStmt = $db->prepare("\n            SELECT a.comentario, a.created_at\n            FROM avaliacoes a\n            INNER JOIN usuarios u ON u.id = a.aluno_id\n            WHERE a.professor_id = :professor_id\n              AND a.disciplina_id = :disciplina_id\n              AND a.comentario IS NOT NULL\n              AND TRIM(a.comentario) <> ''\n              AND u.tipo = 'aluno'\n            ORDER BY a.created_at DESC\n            LIMIT 6\n        ");
+        $commentsStmt->execute([
+            ':professor_id' => (int)$r['professor_row_id'],
+            ':disciplina_id' => (int)$r['disciplina_id']
+        ]);
         $comentarios = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 
         $result[] = [

@@ -31,10 +31,21 @@ CREATE TABLE disciplinas (
     curso VARCHAR(120) NOT NULL
 ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE professor_disciplinas (
+    professor_id INT NOT NULL,
+    disciplina_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (professor_id, disciplina_id),
+    FOREIGN KEY (professor_id) REFERENCES professores(id),
+    FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id)
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE avaliacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     aluno_id INT,
     professor_id INT,
+    disciplina_id INT,
     clareza INT,
     dinamismo INT,
     recursos INT,
@@ -50,5 +61,6 @@ CREATE TABLE avaliacoes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (aluno_id) REFERENCES usuarios(id),
-    FOREIGN KEY (professor_id) REFERENCES professores(id)
+    FOREIGN KEY (professor_id) REFERENCES professores(id),
+    FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id)
 ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

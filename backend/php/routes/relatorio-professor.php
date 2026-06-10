@@ -60,8 +60,8 @@ try {
         ], 404);
     }
 
-    $where = 'WHERE p.nome = :professor_nome';
-    $params = [':professor_nome' => $profRow['nome']];
+    $where = 'WHERE p.id = :professor_id';
+    $params = [':professor_id' => $professorId];
 
     $sql = "
         SELECT

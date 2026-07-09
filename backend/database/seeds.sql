@@ -1,374 +1,213 @@
-SET @curso_eisi = 'EISI';
-SET @ano_quarto = '4.º Ano';
-SET @semestre_primeiro = '1.º Semestre';
-SET @semestre_atual = '2.º Semestre';
-SET @departamento_eisi = 'Engenharia de Informática e Sistemas de Informação';
-
--- Ensure the client connection uses utf8mb4 to avoid mojibake on import
 SET NAMES utf8mb4;
-SET collation_connection = 'utf8mb4_unicode_ci';
+SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TEMPORARY TABLE seed_disciplinas_eisi (
-    nome VARCHAR(160) NOT NULL,
-    sigla VARCHAR(40),
-    ano_academico VARCHAR(20) NOT NULL,
-    semestre VARCHAR(30) NOT NULL,
-    status VARCHAR(40) NOT NULL,
-    curso VARCHAR(120) NOT NULL
-) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS avaliacoes;
+DROP TABLE IF EXISTS matriculas;
+DROP TABLE IF EXISTS professor_disciplinas;
+DROP TABLE IF EXISTS calendario_semestres;
+DROP TABLE IF EXISTS professores;
+DROP TABLE IF EXISTS disciplinas;
+DROP TABLE IF EXISTS usuarios;
 
-INSERT INTO seed_disciplinas_eisi (nome, sigla, ano_academico, semestre, status, curso) VALUES
-('Álgebra Linear', 'AL', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise Matemática I', 'AM I', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise Matemática II', 'AM II', '1.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Física I', 'FIS I', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Introdução aos Computadores e Programação', 'ICP', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Métodos de Investigação Científica', 'MIC', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Química Fundamental', 'QF', '1.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Química Orgânica', 'QO', '1.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise Matemática III', 'AM III', '2.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise Matemática IV', 'AM IV', '2.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Comunicação Pessoal e Empresarial', 'CPE', '2.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Física II', 'FIS II', '2.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Física III', 'FIS III', '2.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Introdução à Organização e à Gestão', 'IOG', '2.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Língua Inglesa I', 'ING I', '2.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Língua Inglesa II', 'ING II', '2.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Sistemas Digitais', 'SD', '2.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise Numérica Científica', 'ANC', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Arquitectura de Computadores I', 'AC I', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Base de Dados', 'BD', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Fundamentos de Sistemas de Informação', 'FSI', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Língua Inglesa III', 'ING III', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Língua Inglesa IV', 'ING IV', '3.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Mecânica I', 'MEC I', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Probabilidades e Estatística', 'PE', '3.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Programação I - Algoritmos e Estruturas de Dados', 'PROG I', '3.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Programação II', 'PROG II', '3.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Análise de Sistemas', 'AS', '4.º Ano', @semestre_primeiro, 'Regulamentar', @curso_eisi),
-('Arquitectura de Computadores II', 'AC II', '4.º Ano', @semestre_primeiro, 'Regulamentar', @curso_eisi),
-('Base de Dados II', 'BD II', '4.º Ano', @semestre_primeiro, 'Regulamentar', @curso_eisi),
-('Programação III (IA)', 'PROG III', '4.º Ano', @semestre_primeiro, 'Regulamentar', @curso_eisi),
-('Sistemas Operativos I', 'SO I', '4.º Ano', @semestre_primeiro, 'Regulamentar', @curso_eisi),
-('Análise de Sistemas de Informação', 'ASI', '4.º Ano', @semestre_atual, 'Regulamentar', @curso_eisi),
-('Computação Gráfica', 'CG', '4.º Ano', @semestre_atual, 'Regulamentar', @curso_eisi),
-('Programação IV - Linguagens e Tecnologias WEB', 'PROG IV', '4.º Ano', @semestre_atual, 'Regulamentar', @curso_eisi),
-('Redes de Computadores', 'RC', '4.º Ano', @semestre_atual, 'Regulamentar', @curso_eisi),
-('Sistemas Operativos II', 'SO II', '4.º Ano', @semestre_atual, 'Regulamentar', @curso_eisi),
-('Auditoria Informática', 'AI', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Computação Paralela e Distribuída', 'CPD', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Diagnóstico e Intervenção nas Organizações', 'DIO', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Engenharia de Software', 'ES', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Estágio', 'EST', '5.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Metodologia de Desenvolvimento de Sistemas de Informação', 'MDSI', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Qualidade de Sistemas de Informação', 'QSI', '5.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Segurança Informática em Redes e Sistemas', 'SIRS', '5.º Ano', '1.º Semestre', 'Regulamentar', @curso_eisi),
-('Tecnologias Multimédia', 'TM', '5.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi),
-('Trabalho de Conclusão do Curso', 'TCC', '5.º Ano', '2.º Semestre', 'Regulamentar', @curso_eisi);
+SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT s.nome, s.sigla, s.ano_academico, s.semestre, s.status, s.curso
-FROM seed_disciplinas_eisi s
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas d
-    WHERE d.nome = s.nome
-      AND d.ano_academico = s.ano_academico
-      AND d.semestre = s.semestre
-      AND d.curso = s.curso
-);
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    telefone VARCHAR(30),
+    foto_perfil VARCHAR(255),
+    curso VARCHAR(120) NOT NULL,
+    ano_academico TINYINT NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    tipo ENUM('aluno', 'professor', 'admin') DEFAULT 'aluno',
+    professor_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT 'Computação Gráfica', 'CG', @ano_quarto, @semestre_atual, 'Regulamentar', @curso_eisi
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas
-    WHERE nome = 'Computação Gráfica' AND ano_academico = @ano_quarto AND semestre = @semestre_atual AND curso = @curso_eisi
-);
+CREATE TABLE professores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    departamento VARCHAR(120),
+    foto_perfil VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT 'Programação IV - Linguagens e Tecnologias WEB', 'PROG IV', @ano_quarto, @semestre_atual, 'Regulamentar', @curso_eisi
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas
-    WHERE nome = 'Programação IV - Linguagens e Tecnologias WEB' AND ano_academico = @ano_quarto AND semestre = @semestre_atual AND curso = @curso_eisi
-);
+CREATE TABLE disciplinas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(180) NOT NULL,
+    sigla VARCHAR(30),
+    curso VARCHAR(120) NOT NULL,
+    ano_academico TINYINT NOT NULL,
+    semestre TINYINT NOT NULL,
+    status ENUM('Regulamentar', 'Opcional', 'Concluída') DEFAULT 'Regulamentar',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT 'Sistemas Operativos II', 'SO II', @ano_quarto, @semestre_atual, 'Regulamentar', @curso_eisi
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas
-    WHERE nome = 'Sistemas Operativos II' AND ano_academico = @ano_quarto AND semestre = @semestre_atual AND curso = @curso_eisi
-);
-
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT 'Análise de Sistemas de Informação', 'ASI', @ano_quarto, @semestre_atual, 'Regulamentar', @curso_eisi
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas
-    WHERE nome = 'Análise de Sistemas de Informação' AND ano_academico = @ano_quarto AND semestre = @semestre_atual AND curso = @curso_eisi
-);
-
-INSERT INTO disciplinas (nome, sigla, ano_academico, semestre, status, curso)
-SELECT 'Redes de Computadores', 'RC', @ano_quarto, @semestre_atual, 'Regulamentar', @curso_eisi
-WHERE NOT EXISTS (
-    SELECT 1 FROM disciplinas
-    WHERE nome = 'Redes de Computadores' AND ano_academico = @ano_quarto AND semestre = @semestre_atual AND curso = @curso_eisi
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Prof. Augusto Antunes', @departamento_eisi, '../assets/images/professores/augusto-antunes.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Computação Gráfica' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Prof. Augusto Antunes' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Doutor Yoelkis Victor', @departamento_eisi, '../assets/images/professores/yoelkis-victor.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Programação IV - Linguagens e Tecnologias WEB' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Doutor Yoelkis Victor' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Rouget', @departamento_eisi, '../assets/images/professores/rouget.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Programação III (IA)' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_primeiro AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Rouget' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Prof. Edilson Cruz', @departamento_eisi, '../assets/images/professores/edilson-cruz.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Arquitectura de Computadores II' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_primeiro AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Prof. Edilson Cruz' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Prof. Edilson Cruz', @departamento_eisi, '../assets/images/professores/edilson-cruz.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Sistemas Operativos I' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_primeiro AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Prof. Edilson Cruz' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Doutor Yoelkis Victor', @departamento_eisi, '../assets/images/professores/yoelkis-victor.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Análise de Sistemas de Informação' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Doutor Yoelkis Victor' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Doutor Yoelkis Victor', @departamento_eisi, '../assets/images/professores/yoelkis-victor.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Programação IV - Linguagens e Tecnologias WEB' AND d.ano_academico = @ano_quarto AND d.semestre = @semestre_atual AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Doutor Yoelkis Victor' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Maximo', @departamento_eisi, '../assets/images/professores/prof_13.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Análise Matemática I' AND d.ano_academico = '1.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Maximo' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Maximo', @departamento_eisi, '../assets/images/professores/prof_13.svg', d.id
-FROM disciplinas d
-WHERE d.nome IN ('Física I', 'Física II') AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Maximo' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Paulo Vieira', @departamento_eisi, '../assets/images/professores/prof_14.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Análise Matemática II' AND d.ano_academico = '1.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Paulo Vieira' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Paulo Vieira', @departamento_eisi, '../assets/images/professores/prof_14.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Álgebra Linear' AND d.ano_academico = '1.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Paulo Vieira' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Sanchez', @departamento_eisi, '../assets/images/professores/prof_15.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Programação I - Algoritmos e Estruturas de Dados' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Sanchez' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Sanchez', @departamento_eisi, '../assets/images/professores/prof_15.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Física III' AND d.ano_academico = '2.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Sanchez' AND p.disciplina_id = d.id
-);
-
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Afonso', @departamento_eisi, '../assets/images/professores/prof_16.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Língua Inglesa II' AND d.ano_academico = '2.º Ano' AND d.semestre = '2.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Afonso' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Afonso', @departamento_eisi, '../assets/images/professores/prof_16.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Língua Inglesa III' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Afonso' AND p.disciplina_id = d.id
-);
-
-INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 990001, 'Professor Rouget', 'rouget@avaliadocente.local', '000000000', NULL, 'EISI', '2020', '12345', 'professor'
-WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE id = 990001 OR email = 'rouget@avaliadocente.local'
-);
-
-INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 220429, 'Joaquim Herculano Joao', 'joaquim.herculano.joao@avaliadocente.local', '9465105', NULL, 'Engenharia de Informática e Sistemas de Informação', '4.º Ano', '1234', 'aluno'
-WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE id = 220429 OR email = 'joaquim.herculano.joao@avaliadocente.local'
-);
-
-INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 220430, 'Liliana Guilherme', 'liliana.guilherme@avaliadocente.local', '9465106', NULL, 'Engenharia de Informática e Sistemas de Informação', '4.º Ano', '1234', 'aluno'
-WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE id = 220430 OR email = 'liliana.guilherme@avaliadocente.local'
-);
-
-INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 220431, 'Edmilson Alexandre', 'edmilson.alexandre@avaliadocente.local', '9465107', NULL, 'Engenharia de Informática e Sistemas de Informação', '2.º Ano', '1234', 'aluno'
-WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE id = 220431 OR email = 'edmilson.alexandre@avaliadocente.local'
-);
-
-INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 220432, 'Caridade Herculano', 'caridade.herculano@avaliadocente.local', '9465108', NULL, 'Engenharia de Informática e Sistemas de Informação', '3.º Ano', '1234', 'aluno'
-WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE id = 220432 OR email = 'caridade.herculano@avaliadocente.local'
-);
-
-UPDATE usuarios u
-JOIN professores p ON p.nome = 'Professor Rouget'
-JOIN disciplinas d ON d.id = p.disciplina_id
-SET u.professor_id = p.id,
-    u.foto_perfil = '../assets/images/professores/rouget.svg'
-WHERE u.id = 990001
-  AND d.nome = 'Programação III (IA)'
-  AND d.ano_academico = @ano_quarto
-  AND d.semestre = @semestre_primeiro
-  AND d.curso = @curso_eisi;
-
--- Additional professor seeds to reflect manual mappings and provide reproducibility
--- Photo paths are NULL where no image exists; frontend uses initials as fallback.
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Paulo Vieira', @departamento_eisi, '../assets/images/professores/prof_14.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Análise Numérica Científica' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Paulo Vieira' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Sanchez', @departamento_eisi, '../assets/images/professores/prof_15.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Fundamentos de Sistemas de Informação' AND d.ano_academico = '3.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Sanchez' AND p.disciplina_id = d.id
-);
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Afonso', @departamento_eisi, '../assets/images/professores/prof_16.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Língua Inglesa I' AND d.ano_academico = '2.º Ano' AND d.semestre = '1.º Semestre' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Afonso' AND p.disciplina_id = d.id
-);
-
--- Professors created for chemistry and databases (no images available in repo)
-INSERT INTO usuarios (nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 'Professor Tawana','tawana@avaliadocente.local','000000000',NULL,'EISI','2020','12345','professor'
-WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE email='tawana@avaliadocente.local');
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Tawana', @departamento_eisi, '../assets/images/professores/prof_18.svg', d.id
-FROM disciplinas d
-WHERE d.nome IN ('Química Fundamental','Química Orgânica') AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Tawana' AND p.disciplina_id = d.id
-);
-
-INSERT INTO usuarios (nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo)
-SELECT 'Wilson Paiva','wilson@avaliadocente.local','000000000',NULL,'EISI','2020','12345','professor'
-WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE email='wilson@avaliadocente.local');
-
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Wilson Paiva', @departamento_eisi, '../assets/images/professores/prof_21.svg', d.id
-FROM disciplinas d
-WHERE d.nome IN ('Base de Dados','Base de Dados II') AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Wilson Paiva' AND p.disciplina_id = d.id
-);
-
--- Add Professor Conde for Probabilidades e Estatística
-INSERT INTO professores (nome, departamento, foto_perfil, disciplina_id)
-SELECT 'Professor Conde', @departamento_eisi, '../assets/images/professores/prof_conde.svg', d.id
-FROM disciplinas d
-WHERE d.nome = 'Probabilidades e Estatística' AND d.curso = @curso_eisi
-AND NOT EXISTS (
-    SELECT 1 FROM professores p WHERE p.nome = 'Professor Conde' AND p.disciplina_id = d.id
-);
-
-CREATE TABLE IF NOT EXISTS professor_disciplinas (
+CREATE TABLE professor_disciplinas (
     professor_id INT NOT NULL,
     disciplina_id INT NOT NULL,
+    PRIMARY KEY (professor_id, disciplina_id),
+    FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE,
+    FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE calendario_semestres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ano INT NOT NULL,
+    semestre TINYINT NOT NULL,
+    data_inicio DATE NOT NULL,
+    data_fim DATE NOT NULL,
+    ativo BOOLEAN DEFAULT FALSE,
+    UNIQUE (ano, semestre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE matriculas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    disciplina_id INT NOT NULL,
+    calendario_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (professor_id, disciplina_id)
-) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id) ON DELETE CASCADE,
+    FOREIGN KEY (calendario_id) REFERENCES calendario_semestres(id) ON DELETE CASCADE,
+    UNIQUE (usuario_id, disciplina_id, calendario_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TEMPORARY TABLE seed_professor_canon AS
-SELECT MIN(id) AS professor_id, nome
-FROM professores
-GROUP BY nome;
+CREATE TABLE avaliacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id INT NOT NULL,
+    professor_id INT NOT NULL,
+    disciplina_id INT NOT NULL,
+    calendario_id INT NOT NULL,
+    clareza TINYINT NOT NULL,
+    dinamismo TINYINT NOT NULL,
+    recursos TINYINT NOT NULL,
+    criterios_avaliacao TINYINT NOT NULL,
+    retorno TINYINT NOT NULL,
+    disponibilidade TINYINT NOT NULL,
+    respeito TINYINT NOT NULL,
+    pontualidade TINYINT NOT NULL,
+    metodologia TINYINT NOT NULL,
+    didatica TINYINT NOT NULL,
+    assiduidade TINYINT NOT NULL,
+    comentario TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (aluno_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE,
+    FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id) ON DELETE CASCADE,
+    FOREIGN KEY (calendario_id) REFERENCES calendario_semestres(id) ON DELETE CASCADE,
+    UNIQUE (aluno_id, professor_id, disciplina_id, calendario_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO professor_disciplinas (professor_id, disciplina_id)
-SELECT c.professor_id, p.disciplina_id
-FROM professores p
-INNER JOIN seed_professor_canon c ON c.nome = p.nome
-WHERE p.disciplina_id IS NOT NULL
-ON DUPLICATE KEY UPDATE disciplina_id = VALUES(disciplina_id);
+ALTER TABLE usuarios ADD CONSTRAINT fk_usuario_professor FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE SET NULL;
 
-UPDATE usuarios u
-INNER JOIN professores p ON p.id = u.professor_id
-INNER JOIN seed_professor_canon c ON c.nome = p.nome
-SET u.professor_id = c.professor_id;
+CREATE INDEX idx_usuario_email ON usuarios(email);
+CREATE INDEX idx_usuario_tipo ON usuarios(tipo);
+CREATE INDEX idx_professor_nome ON professores(nome);
+CREATE INDEX idx_disciplina_curso ON disciplinas(curso);
+CREATE INDEX idx_disciplina_semestre ON disciplinas(semestre);
+CREATE INDEX idx_avaliacao_professor ON avaliacoes(professor_id);
+CREATE INDEX idx_avaliacao_aluno ON avaliacoes(aluno_id);
+CREATE INDEX idx_avaliacao_calendario ON avaliacoes(calendario_id);
 
-UPDATE avaliacoes a
-INNER JOIN professores p ON p.id = a.professor_id
-INNER JOIN seed_professor_canon c ON c.nome = p.nome
-SET a.disciplina_id = COALESCE(a.disciplina_id, p.disciplina_id),
-    a.professor_id = c.professor_id;
+INSERT INTO calendario_semestres (ano, semestre, data_inicio, data_fim, ativo) VALUES
+(2025, 1, '2025-08-25', '2026-02-21', FALSE),
+(2026, 2, '2026-02-23', '2026-07-26', TRUE);
 
-DELETE p
-FROM professores p
-INNER JOIN seed_professor_canon c ON c.nome = p.nome
-WHERE p.id <> c.professor_id;
+INSERT INTO disciplinas (id, nome, sigla, curso, ano_academico, semestre, status) VALUES
+(1, 'Álgebra Linear', 'AL', 'EISI', 1, 1, 'Regulamentar'),
+(2, 'Análise Matemática I', 'AM I', 'EISI', 1, 1, 'Regulamentar'),
+(3, 'Análise Matemática II', 'AM II', 'EISI', 1, 2, 'Regulamentar'),
+(4, 'Física I', 'FIS I', 'EISI', 1, 1, 'Regulamentar'),
+(5, 'Introdução aos Computadores e Programação', 'ICP', 'EISI', 1, 1, 'Regulamentar'),
+(6, 'Métodos de Investigação Científica', 'MIC', 'EISI', 1, 1, 'Regulamentar'),
+(7, 'Química Fundamental', 'QF', 'EISI', 1, 1, 'Regulamentar'),
+(8, 'Química Orgânica', 'QO', 'EISI', 1, 2, 'Regulamentar'),
+(9, 'Análise Matemática III', 'AM III', 'EISI', 2, 1, 'Regulamentar'),
+(10, 'Análise Matemática IV', 'AM IV', 'EISI', 2, 2, 'Regulamentar'),
+(11, 'Comunicação Pessoal e Empresarial', 'CPE', 'EISI', 2, 1, 'Regulamentar'),
+(12, 'Física II', 'FIS II', 'EISI', 2, 1, 'Regulamentar'),
+(13, 'Física III', 'FIS III', 'EISI', 2, 2, 'Regulamentar'),
+(14, 'Introdução à Organização e à Gestão', 'IOG', 'EISI', 2, 1, 'Regulamentar'),
+(15, 'Língua Inglesa I', 'ING I', 'EISI', 2, 1, 'Regulamentar'),
+(16, 'Língua Inglesa II', 'ING II', 'EISI', 2, 2, 'Regulamentar'),
+(17, 'Sistemas Digitais', 'SD', 'EISI', 2, 2, 'Regulamentar'),
+(18, 'Análise Numérica Científica', 'ANC', 'EISI', 3, 1, 'Regulamentar'),
+(19, 'Arquitectura de Computadores I', 'AC I', 'EISI', 3, 1, 'Regulamentar'),
+(20, 'Base de Dados', 'BD', 'EISI', 3, 1, 'Regulamentar'),
+(21, 'Fundamentos de Sistemas de Informação', 'FSI', 'EISI', 3, 1, 'Regulamentar'),
+(22, 'Língua Inglesa III', 'ING III', 'EISI', 3, 1, 'Regulamentar'),
+(23, 'Língua Inglesa IV', 'ING IV', 'EISI', 3, 2, 'Regulamentar'),
+(24, 'Mecânica I', 'MEC I', 'EISI', 3, 1, 'Regulamentar'),
+(25, 'Probabilidades e Estatística', 'PE', 'EISI', 3, 2, 'Regulamentar'),
+(26, 'Programação I - Algoritmos e Estruturas de Dados', 'PROG I', 'EISI', 3, 1, 'Regulamentar'),
+(27, 'Programação II', 'PROG II', 'EISI', 3, 2, 'Regulamentar'),
+(28, 'Análise de Sistemas', 'AS', 'EISI', 4, 1, 'Regulamentar'),
+(29, 'Arquitectura de Computadores II', 'AC II', 'EISI', 4, 1, 'Regulamentar'),
+(30, 'Base de Dados II', 'BD II', 'EISI', 4, 1, 'Regulamentar'),
+(31, 'Programação III (IA)', 'PROG III', 'EISI', 4, 1, 'Regulamentar'),
+(32, 'Sistemas Operativos I', 'SO I', 'EISI', 4, 1, 'Regulamentar'),
+(33, 'Análise de Sistemas de Informação', 'ASI', 'EISI', 4, 2, 'Regulamentar'),
+(34, 'Computação Gráfica', 'CG', 'EISI', 4, 2, 'Regulamentar'),
+(35, 'Programação IV - Linguagens e Tecnologias WEB', 'PROG IV', 'EISI', 4, 2, 'Regulamentar'),
+(36, 'Redes de Computadores', 'RC', 'EISI', 4, 2, 'Regulamentar'),
+(37, 'Sistemas Operativos II', 'SO II', 'EISI', 4, 2, 'Regulamentar'),
+(38, 'Auditoria Informática', 'AI', 'EISI', 5, 1, 'Regulamentar'),
+(39, 'Computação Paralela e Distribuída', 'CPD', 'EISI', 5, 1, 'Regulamentar'),
+(40, 'Diagnóstico e Intervenção nas Organizações', 'DIO', 'EISI', 5, 1, 'Regulamentar'),
+(41, 'Engenharia de Software', 'ES', 'EISI', 5, 1, 'Regulamentar'),
+(42, 'Estágio', 'EST', 'EISI', 5, 2, 'Regulamentar'),
+(43, 'Metodologia de Desenvolvimento de Sistemas de Informação', 'MDSI', 'EISI', 5, 1, 'Regulamentar'),
+(44, 'Qualidade de Sistemas de Informação', 'QSI', 'EISI', 5, 2, 'Regulamentar'),
+(45, 'Segurança Informática em Redes e Sistemas', 'SIRS', 'EISI', 5, 1, 'Regulamentar'),
+(46, 'Tecnologias Multimédia', 'TM', 'EISI', 5, 2, 'Regulamentar'),
+(47, 'Trabalho de Conclusão do Curso', 'TCC', 'EISI', 5, 2, 'Regulamentar');
 
-UPDATE professores SET disciplina_id = NULL;
+INSERT INTO professores (id, nome, departamento, foto_perfil) VALUES
+(1, 'Professor Rouget', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/rouget.svg'),
+(2, 'Professor Tawana', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_18.svg'),
+(3, 'Wilson Paiva', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_21.svg'),
+(4, 'Professor Doutor Yoelkis Victor', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/yoelkis-victor.svg'),
+(5, 'Prof. Edilson Cruz', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/edilson-cruz.svg'),
+(6, 'Professor Maximo', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_13.svg'),
+(7, 'Professor Paulo Vieira', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_14.svg'),
+(8, 'Professor Sanchez', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_15.svg'),
+(9, 'Professor Afonso', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_16.svg'),
+(10, 'Professor Conde', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/prof_conde.svg'),
+(11, 'Prof. Augusto Antunes', 'Engenharia de Informática e Sistemas de Informação', '../assets/images/professores/augusto-antunes.svg');
 
-DROP TEMPORARY TABLE seed_professor_canon;
+INSERT INTO professor_disciplinas (professor_id, disciplina_id) VALUES
+(1, 31),
+(2, 7), (2, 8),
+(3, 20), (3, 30),
+(4, 33), (4, 35),
+(5, 29), (5, 32),
+(6, 2), (6, 4), (6, 12),
+(7, 1), (7, 3), (7, 10), (7, 18),
+(8, 13), (8, 21), (8, 26), (8, 27),
+(9, 15), (9, 16), (9, 22),
+(10, 25),
+(11, 34);
+
+INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo, professor_id) VALUES
+(220429, 'Joaquim Herculano Joao', 'joaquim.herculano.joao@avaliadocente.local', '9465105', NULL, 'EISI', 4, '1234', 'aluno', NULL),
+(220430, 'Liliana Guilherme', 'liliana.guilherme@avaliadocente.local', '9465106', NULL, 'EISI', 4, '1234', 'aluno', NULL),
+(220431, 'Edmilson Alexandre', 'edmilson.alexandre@avaliadocente.local', '9465107', NULL, 'EISI', 2, '1234', 'aluno', NULL),
+(220432, 'Caridade Herculano', 'caridade.herculano@avaliadocente.local', '9465108', NULL, 'EISI', 3, '1234', 'aluno', NULL),
+(990001, 'Professor Rouget', 'rouget@avaliadocente.local', '000000000', '../assets/images/professores/rouget.svg', 'EISI', 0, '12345', 'professor', 1),
+(990002, 'Professor Tawana', 'tawana@avaliadocente.local', '000000000', '../assets/images/professores/prof_18.svg', 'EISI', 0, '12345', 'professor', 2),
+(990003, 'Wilson Paiva', 'wilson@avaliadocente.local', '000000000', '../assets/images/professores/prof_21.svg', 'EISI', 0, '12345', 'professor', 3),
+(990004, 'Professor Doutor Yoelkis Victor', 'doutoryoelkisvictor@avaliadocente.local', '000000000', '../assets/images/professores/yoelkis-victor.svg', 'EISI', 0, '12345', 'professor', 4),
+(990005, 'Prof. Edilson Cruz', 'edilsoncruz@avaliadocente.local', '000000000', '../assets/images/professores/edilson-cruz.svg', 'EISI', 0, '12345', 'professor', 5),
+(990006, 'Professor Maximo', 'maximo@avaliadocente.local', '000000000', '../assets/images/professores/prof_13.svg', 'EISI', 0, '12345', 'professor', 6),
+(990007, 'Professor Paulo Vieira', 'paulovieira@avaliadocente.local', '000000000', '../assets/images/professores/prof_14.svg', 'EISI', 0, '12345', 'professor', 7),
+(990008, 'Professor Sanchez', 'sanchez@avaliadocente.local', '000000000', '../assets/images/professores/prof_15.svg', 'EISI', 0, '12345', 'professor', 8),
+(990009, 'Professor Afonso', 'afonso@avaliadocente.local', '000000000', '../assets/images/professores/prof_16.svg', 'EISI', 0, '12345', 'professor', 9),
+(990010, 'Professor Conde', 'conde@avaliadocente.local', '000000000', '../assets/images/professores/prof_conde.svg', 'EISI', 0, '12345', 'professor', 10);
+
+INSERT INTO matriculas (usuario_id, disciplina_id, calendario_id) VALUES
+(220429, 33, 2), (220429, 34, 2), (220429, 35, 2), (220429, 36, 2), (220429, 37, 2),
+(220430, 33, 2), (220430, 34, 2), (220430, 35, 2), (220430, 36, 2), (220430, 37, 2),
+(220431, 10, 2), (220431, 13, 2), (220431, 16, 2), (220431, 17, 2),
+(220432, 23, 2), (220432, 25, 2), (220432, 27, 2);

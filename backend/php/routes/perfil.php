@@ -27,7 +27,7 @@ try {
             json_response(['success' => false, 'message' => 'Usuario nao identificado.'], 422);
         }
 
-        $stmt = $db->prepare('SELECT id, nome, email, telefone, foto_perfil, curso, ano_academico, tipo, created_at FROM usuarios WHERE id = :id LIMIT 1');
+        $stmt = $db->prepare('SELECT u.id, u.nome, u.email, u.telefone, u.foto_perfil, c.nome AS curso, u.ano_academico, u.tipo, u.created_at FROM usuarios u LEFT JOIN cursos c ON u.curso_id = c.id WHERE u.id = :id LIMIT 1');
         $stmt->execute([':id' => $id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -110,7 +110,7 @@ try {
             ]);
         }
 
-        $stmt = $db->prepare('SELECT id, nome, email, telefone, foto_perfil, curso, ano_academico, tipo, created_at FROM usuarios WHERE id = :id LIMIT 1');
+        $stmt = $db->prepare('SELECT u.id, u.nome, u.email, u.telefone, u.foto_perfil, c.nome AS curso, u.ano_academico, u.tipo, u.created_at FROM usuarios u LEFT JOIN cursos c ON u.curso_id = c.id WHERE u.id = :id LIMIT 1');
         $stmt->execute([':id' => $id]);
         json_response(['success' => true, 'data' => profile_payload($stmt->fetch(PDO::FETCH_ASSOC))]);
     }

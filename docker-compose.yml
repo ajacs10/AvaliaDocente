@@ -5,10 +5,11 @@ services:
     restart: always
 
     ports:
-      - "8080:80"
+      - "8081:80"
 
     volumes:
       - ./:/var/www/html
+      - ./docker/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
 
     working_dir: /var/www/html
 
@@ -16,11 +17,13 @@ services:
       bash -c "
       docker-php-ext-install pdo pdo_mysql mysqli &&
       a2enmod rewrite &&
+      a2ensite 000-default.conf &&
       apache2-foreground
       "
 
     depends_on:
       - mysql
+
 
   mysql:
     image: mysql:8.0
@@ -42,13 +45,14 @@ services:
       - ./backend/database/seeds.sql:/docker-entrypoint-initdb.d/seeds.sql:ro
       - ./backend/database/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
 
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: sistema_avaliacao_phpmyadmin
     restart: always
 
     ports:
-      - "8081:80"
+      - "8082:80"
 
     environment:
       PMA_HOST: mysql
@@ -58,6 +62,7 @@ services:
 
     depends_on:
       - mysql
+
 
 volumes:
   mysql_data:

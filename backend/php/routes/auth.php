@@ -39,19 +39,20 @@ try {
         : ", NULL AS professor_id";
 
     $stmt = $db->prepare("
-        SELECT id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo {$professorIdSelect}
-        FROM usuarios
-        WHERE id = :id OR email = :email OR nome = :nome
+        SELECT u.id, u.nome, u.email, u.telefone, u.foto_perfil, u.curso_id, c.nome AS curso, u.ano_academico, u.senha, u.tipo {$professorIdSelect}
+        FROM usuarios u
+        LEFT JOIN cursos c ON u.curso_id = c.id
+        WHERE u.id = :id OR u.email = :email OR u.nome = :nome
         ORDER BY
             CASE
-                WHEN id = :id_exact THEN 0
-                WHEN email = :email_exact THEN 1
-                WHEN nome = :nome_exact THEN 2
+                WHEN u.id = :id_exact THEN 0
+                WHEN u.email = :email_exact THEN 1
+                WHEN u.nome = :nome_exact THEN 2
                 ELSE 3
             END,
             CASE
-                WHEN tipo = 'professor' THEN 0
-                WHEN tipo = 'aluno' THEN 1
+                WHEN u.tipo = 'professor' THEN 0
+                WHEN u.tipo = 'aluno' THEN 1
                 ELSE 2
             END
         LIMIT 1
@@ -70,7 +71,7 @@ try {
     if (!$user) 
         {
         $altInput = mb_strtolower($studentId);
-        $altStmt = $db->prepare("SELECT id, nome, email, telefone, foto_perfil, curso, ano_academico, senha, tipo {$professorIdSelect} FROM usuarios WHERE LOWER(email) = :email_lower OR LOWER(nome) LIKE :nome_like LIMIT 1");
+        $altStmt = $db->prepare("SELECT u.id, u.nome, u.email, u.telefone, u.foto_perfil, u.curso_id, c.nome AS curso, u.ano_academico, u.senha, u.tipo {$professorIdSelect} FROM usuarios u LEFT JOIN cursos c ON u.curso_id = c.id WHERE LOWER(u.email) = :email_lower OR LOWER(u.nome) LIKE :nome_like LIMIT 1");
         $altStmt->execute([
             ':email_lower' => $altInput,
             ':nome_like' => '%' . $altInput . '%'

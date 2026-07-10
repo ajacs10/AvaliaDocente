@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Direção - AvaliaDocente</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css?v=20260710-1">
+  <link rel="stylesheet" href="../css/pages.css?v=20260710-1">
+  <link rel="stylesheet" href="../css/components/sidebar.css?v=20260710-1">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="dashboard-direcao">
+  <div class="dashboard-container">
+    <div id="sidebar-root"></div>
+    <main class="dashboard-main">
+      <header class="dash-header">
+        <div class="welcome-text">
+          <h1 id="dashboardGreeting">Painel da Direção</h1>
+          <p class="header-security"><strong>Relatórios anónimos e agregados.</strong> Não é possível identificar os estudantes nas análises.</p>
+        </div>
+        <div class="header-actions">
+          <button class="notification-btn" aria-label="Notificações"><i data-lucide="bell"></i></button>
+          <div class="user-profile">
+            <div class="avatar">DR</div>
+            <div class="user-info">
+              <span class="user-name" id="dashboardUserName">Direção</span>
+              <span class="user-role">Direção</span>
+            </div>
+            <i data-lucide="chevron-down" class="dropdown-icon"></i>
+          </div>
+        </div>
+      </header>
+
+      <section class="page-content">
+        <div class="action-row">
+          <button class="btn-primary" id="exportCsvBtn" type="button"><i data-lucide="download-cloud"></i><span>Exportar relatório CSV</span></button>
+          <button class="btn-secondary-flat" id="exportPdfBtn" type="button"><i data-lucide="file-text"></i><span>Exportar resumo PDF</span></button>
+        </div>
+
+        <div class="page-grid">
+          <section class="page-card">
+            <h2 class="card-title">Cursos mais avaliados</h2>
+            <div id="cursoList" class="inline-list"></div>
+          </section>
+          <section class="page-card">
+            <h2 class="card-title">Top professores</h2>
+            <div id="rankingList" class="inline-list"></div>
+          </section>
+        </div>
+
+        <div class="page-grid">
+          <section class="page-card">
+            <h2 class="card-title">Distribuição por ano</h2>
+            <div id="anoList" class="inline-list"></div>
+          </section>
+          <section class="page-card">
+            <h2 class="card-title">Distribuição por semestre</h2>
+            <div id="semestreList" class="inline-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/include-sidebar.js?v=20260710-1"></script>
+  <script src="../js/dashboard.js?v=20260710-1"></script>
+  <script src="../js/dashboard-direcao.js?v=20260710-1"></script>
+  <script>if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();</script>
+</body>
+</html>

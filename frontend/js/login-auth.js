@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch('../../backend/php/routes/auth.php', {
+      const authUrl = `${window.location.origin}/backend/php/routes/auth.php`;
+      const response = await fetch(authUrl, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -111,7 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setAuthValue('sistema-avaliacao:studentPhoto', user.foto_perfil || '', remember);
       setAuthValue('sistema-avaliacao:studentCourse', user.curso || '', remember);
       setAuthValue('sistema-avaliacao:studentYear', user.ano_academico || '', remember);
-      setAuthValue('sistema-avaliacao:userType', user.tipo || 'aluno', remember);
+      const userType = String(user.tipo || 'aluno').toLowerCase();
+      setAuthValue('sistema-avaliacao:userType', userType, remember);
       if (user.professor_id) setAuthValue('sistema-avaliacao:professorId', String(user.professor_id), remember);
       else {
         window.sessionStorage.removeItem('sistema-avaliacao:professorId');
@@ -120,9 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // keep showing spinner briefly and then redirect (without extra message)
       setTimeout(() => {
-        if (user.tipo === 'professor') {
+        if (userType === 'professor') {
           const query = user.professor_id ? `?professor_id=${encodeURIComponent(user.professor_id)}` : '';
           window.location.href = `./dashboard-professor.html${query}`;
+          return;
+        }
+        if (userType === 'admin') {
+          window.location.href = './dashboard-direcao.html';
           return;
         }
         window.location.href = './dashboard-aluno.html';
@@ -134,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = false;
         submitBtn.innerHTML = submitBtn.dataset.orig || submitBtn.innerHTML;
       }
-      setMsg(t('Nao foi possivel autenticar agora. Tente novamente.'));
+      setMsg(`${t('Nao foi possivel autenticar agora. Tente novamente.')}
+      (${error.message})`);
     }
   });
 });

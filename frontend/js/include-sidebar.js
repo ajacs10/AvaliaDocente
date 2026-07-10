@@ -56,8 +56,16 @@ document.addEventListener('DOMContentLoaded', function(){
         // mark active menu item based on current page
         try {
           const items = aside.querySelectorAll('.menu a.menu-item');
-          const userType = getAuthValue('sistema-avaliacao:userType', 'aluno');
-          const current = location.pathname.split('/').pop() || (userType === 'professor' ? 'dashboard-professor.html' : 'dashboard-aluno.html');
+          const userType = getAuthValue('sistema-avaliacao:userType', 'aluno').toLowerCase();
+          const current = location.pathname.split('/').pop() || (userType === 'professor' ? 'dashboard-professor.html' : userType === 'admin' ? 'dashboard-direcao.html' : 'dashboard-aluno.html');
+
+          const createMenuItem = (href, icon, label) => {
+            const item = document.createElement('a');
+            item.href = href;
+            item.className = 'menu-item';
+            item.innerHTML = `<i data-lucide="${icon}"></i><span>${label}</span>`;
+            return item;
+          };
 
           if (userType === 'professor') {
             const dashboardLink = aside.querySelector('.menu a[href="dashboard-aluno.html"]');
@@ -67,10 +75,7 @@ document.addEventListener('DOMContentLoaded', function(){
               if (textNode) textNode.textContent = 'Dashboard Professor';
 
               if (!aside.querySelector('.menu a[href="relatorio-professor.html"]')) {
-                const reportLink = document.createElement('a');
-                reportLink.href = 'relatorio-professor.html';
-                reportLink.className = 'menu-item';
-                reportLink.innerHTML = '<i data-lucide="bar-chart-2"></i><span>Ver avaliações</span>';
+                const reportLink = createMenuItem('relatorio-professor.html', 'bar-chart-2', 'Ver avaliações');
                 dashboardLink.insertAdjacentElement('afterend', reportLink);
               }
             }
@@ -79,6 +84,13 @@ document.addEventListener('DOMContentLoaded', function(){
               const link = aside.querySelector(`.menu a[href="${href}"]`);
               if (link) link.remove();
             });
+          } else if (userType === 'admin') {
+            const menu = aside.querySelector('.menu');
+            if (menu) {
+              menu.innerHTML = '';
+              menu.appendChild(createMenuItem('dashboard-direcao.html', 'line-chart', 'Painel Direção'));
+              menu.appendChild(createMenuItem('perfil.html', 'user', 'Perfil'));
+            }
           } else {
             ['relatorio-professor.html', 'criterios.html'].forEach((href) => {
               const link = aside.querySelector(`.menu a[href="${href}"]`);
@@ -88,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (helpLinkText) helpLinkText.textContent = 'Dúvidas e critérios';
           }
 
-          items.forEach(a => {
+          aside.querySelectorAll('.menu a.menu-item').forEach(a => {
             const href = a.getAttribute('href').split('/').pop();
             if (href === current) a.classList.add('active'); else a.classList.remove('active');
           });

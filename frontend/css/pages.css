@@ -59,6 +59,65 @@
     min-width: 0;
 }
 
+.dashboard-direcao .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.dashboard-direcao .page-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.dashboard-direcao .page-card:hover {
+    transform: translateY(-2px);
+}
+
+.dashboard-direcao .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-direcao .stat-card {
+    background: #f8fafc;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+}
+
+.dashboard-direcao .stat-card strong {
+    display: block;
+    font-size: 1.5rem;
+    color: #0f172a;
+}
+
+.dashboard-direcao .btn-primary {
+    background: #0f172a;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.dashboard-direcao .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .page-stack {
     display: grid;
     gap: 16px;

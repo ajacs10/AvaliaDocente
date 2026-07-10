@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('disciplineGrid');
   const profNameEl = document.getElementById('profName');
+  const exportBtn = document.getElementById('exportReportBtn');
+  let reportRows = [];
 
   const getAuthValue = (key, fallback = '') => {
     return window.sessionStorage.getItem(key) || window.localStorage.getItem(key) || fallback;
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (profNameEl) profNameEl.textContent = data[0].professor_nome || '';
+      reportRows = data;
 
       grid.innerHTML = '';
       data.forEach(item => {
@@ -86,6 +89,46 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(err => {
       grid.innerHTML = `<p class="helper-text">Não foi possível carregar as avaliações deste professor: ${escapeHtml(err.message || String(err))}</p>`;
     });
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      if (!reportRows.length) {
+        window.alert('Ainda não existem dados para exportar.');
+        return;
+      }
+
+      const headers = ['Disciplina', 'Avaliações', 'Clareza', 'Dinamismo', 'Recursos', 'Critérios', 'Retorno', 'Disponibilidade', 'Respeito', 'Pontualidade'];
+      const rows = reportRows.map((item) => {
+        const metrics = item.medias || {};
+        return [
+          item.disciplina_nome || 'Sem disciplina',
+          item.total_avaliacoes || 0,
+          metrics.clareza ?? 0,
+          metrics.dinamismo ?? 0,
+          metrics.recursos ?? 0,
+          metrics.criterios ?? 0,
+          metrics.retorno ?? 0,
+          metrics.disponibilidade ?? 0,
+          metrics.respeito ?? 0,
+          metrics.pontualidade ?? 0
+        ];
+      });
+
+      const csvContent = [headers, ...rows]
+        .map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(';'))
+        .join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `relatorio-${(profNameEl?.textContent || 'professor').toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'professor'}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+  }
 
   function formatMetric(v) {
     if (v === null || v === undefined) return '0.0';

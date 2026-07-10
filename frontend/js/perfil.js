@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.sessionStorage.setItem('sistema-avaliacao:studentCourse', user.curso || '');
     window.sessionStorage.setItem('sistema-avaliacao:studentYear', user.ano_academico || '');
     if (user.tipo) {
-      window.sessionStorage.setItem('sistema-avaliacao:userType', user.tipo);
+      window.sessionStorage.setItem('sistema-avaliacao:userType', String(user.tipo).toLowerCase());
     }
   };
 
@@ -102,11 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const explicitType = String(user.tipo || window.sessionStorage.getItem('sistema-avaliacao:userType') || '').toLowerCase();
     const nameHint = String(user.nome || window.sessionStorage.getItem('sistema-avaliacao:studentName') || '').toLowerCase();
     const roleHint = /professor|docente/.test(explicitType) || /professor|docente/.test(nameHint);
-    const userType = roleHint ? 'professor' : 'aluno';
+    const userType = explicitType === 'admin' ? 'admin' : roleHint ? 'professor' : 'aluno';
     const isProfessor = userType === 'professor';
+    const isAdmin = userType === 'admin';
 
-    if (isProfessor) {
-      window.sessionStorage.setItem('sistema-avaliacao:userType', 'professor');
+    if (isProfessor || isAdmin) {
+      window.sessionStorage.setItem('sistema-avaliacao:userType', userType);
     }
     const rawYear = String(user.ano_academico || '').trim();
     const matchedYear = rawYear.match(/\b(19|20)\d{2}\b/);
@@ -116,10 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = user.nome || window.sessionStorage.getItem('sistema-avaliacao:studentName') || 'Estudante';
     if (profileName) profileName.textContent = shortName(name);
     if (studentIdEl) studentIdEl.textContent = id || '--';
-    if (identifierLabelEl) identifierLabelEl.textContent = isProfessor ? 'N.º do Docente' : 'N.º de Estudante';
-    if (userTypeEl) userTypeEl.textContent = isProfessor ? 'Docente' : 'Aluno';
-    if (yearLabelEl) yearLabelEl.textContent = isProfessor ? 'Ano de ingresso' : 'Ano';
-    if (profileCourse) profileCourse.textContent = isProfessor ? 'Leciona várias disciplinas' : (user.curso || 'Curso não informado');
+    if (identifierLabelEl) identifierLabelEl.textContent = isProfessor ? 'N.º do Docente' : isAdmin ? 'N.º da Direção' : 'N.º de Estudante';
+    if (userTypeEl) userTypeEl.textContent = isAdmin ? 'Direção' : isProfessor ? 'Docente' : 'Aluno';
+    if (yearLabelEl) yearLabelEl.textContent = isProfessor ? 'Ano de ingresso' : isAdmin ? 'Ano' : 'Ano';
+    if (profileCourse) profileCourse.textContent = isProfessor ? 'Leciona várias disciplinas' : isAdmin ? 'Direção administrativa' : (user.curso || 'Curso não informado');
     if (yearValueEl) yearValueEl.textContent = isProfessor ? (entryYear || '--') : (user.ano_academico || '--');
     if (profileEmail) profileEmail.value = user.email || '';
     if (profilePhone) profilePhone.value = user.telefone || '';

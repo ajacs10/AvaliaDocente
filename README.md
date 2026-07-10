@@ -198,6 +198,26 @@ As contas docentes podem autenticar utilizando:
 | 990004 | Professor Doutor Yoelkis Victor | Análise de Sistemas de Informação, Programação IV - Linguagens e Tecnologias WEB | [doutoryoelkisvictor@avaliadocente.local](mailto:doutoryoelkisvictor@avaliadocente.local) |
 | 990005 | Prof. Edilson Cruz | Arquitectura de Computadores II, Sistemas Operativos I | [edilsoncruz@avaliadocente.local](mailto:edilsoncruz@avaliadocente.local) |
 | 990006 | Professor Maximo | Análise Matemática I, Física I, Física II | [maximo@avaliadocente.local](mailto:maximo@avaliadocente.local) |
+
+## Coordenador / Administração
+
+O sistema inclui um utilizador coordenador com privilégios administrativos para consultar métricas agregadas e exportar relatórios (sem identificação dos avaliadores). Use estas credenciais de demonstração para aceder ao painel da Direção / Coordenador:
+
+```text
+ID: 900000
+Nome: Coordenador Local
+Email: coordenador@avaliadocente.local
+Senha: coord123
+Tipo: admin (acesso à página `dashboard-direcao.html`)
+```
+
+Permissões do coordenador/admin:
+- Ver métricas agregadas por curso, disciplina e professor.
+- Exportar relatórios CSV/PDF de avaliações.
+- Não aceder a identidades dos estudantes (dados de avaliação são anónimos).
+- Acesso a todas as funcionalidades de visualização da Direção.
+
+Nota: no esquema de utilizadores o coordenador é representado com `tipo='admin'`. Se for necessário um papel distinto (`coordenador`) podemos alterar o `ENUM` no esquema e no código — diga se quer essa alteração.
 | 990007 | Professor Paulo Vieira | Álgebra Linear, Análise Matemática II, Análise Numérica Científica, Análise Matemática IV | [paulovieira@avaliadocente.local](mailto:paulovieira@avaliadocente.local) |
 | 990008 | Professor Sanchez | Fundamentos de Sistemas de Informação, Programação I - Algoritmos e Estruturas de Dados, Programação II | [sanchez@avaliadocente.local](mailto:sanchez@avaliadocente.local) |
 | 990009 | Professor Afonso | Língua Inglesa I, Língua Inglesa II, Língua Inglesa III | [afonso@avaliadocente.local](mailto:afonso@avaliadocente.local) |

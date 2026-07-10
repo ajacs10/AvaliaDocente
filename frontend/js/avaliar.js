@@ -83,8 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
     message.style.color = isError ? '#b91c1c' : '#047857';
   };
 
+  const parseSemesterValue = (value) => {
+    if (value === 1 || value === '1' || value === '1.º Semestre') return 1;
+    if (value === 2 || value === '2' || value === '2.º Semestre') return 2;
+    if (typeof value === 'string' && /1/.test(value)) return 1;
+    if (typeof value === 'string' && /2/.test(value)) return 2;
+    return null;
+  };
+
   const currentSemester = () => {
     const storedSemester = window.sessionStorage.getItem('sistema-avaliacao:studentSemester');
+    const parsedStored = parseSemesterValue(storedSemester);
     const now = new Date();
     const month = now.getMonth() + 1;
     const day = now.getDate();
@@ -93,7 +102,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (md >= 1007 || md <= 308) return '1.º Semestre';
     if (md >= 310 && md <= 804) return '2.º Semestre';
 
-    return storedSemester || '2.º Semestre';
+    return parsedStored ? `${parsedStored}.º Semestre` : '2.º Semestre';
+  };
+
+  const currentSemesterNumber = () => {
+    const storedSemester = window.sessionStorage.getItem('sistema-avaliacao:studentSemester');
+    const parsedStored = parseSemesterValue(storedSemester);
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const md = month * 100 + day;
+
+    if (md >= 1007 || md <= 308) return 1;
+    if (md >= 310 && md <= 804) return 2;
+
+    return parsedStored || 2;
   };
 
   const courseAliases = (curso) => {
@@ -307,10 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const curso = window.sessionStorage.getItem('sistema-avaliacao:studentCourse') || 'Engenharia de Inf. e Sist. de Informação';
       const ano = window.sessionStorage.getItem('sistema-avaliacao:studentYear') || '4.º Ano';
+      const semestreAtual = currentSemesterNumber();
       const professorLists = [];
 
       for (const cursoOpcao of courseAliases(curso)) {
-        const list = await ProfessorAPI.listar(cursoOpcao, { ano });
+        const list = await ProfessorAPI.listar(cursoOpcao, { ano, semestre: semestreAtual });
         if (list.length) professorLists.push(list);
       }
 
@@ -336,6 +360,11 @@ document.addEventListener('DOMContentLoaded', () => {
       professorSelect.innerHTML = '<option value="">Selecione um professor</option>' + professors.map((professor) => (
         `<option value="${escapeHtml(professorKey(professor))}">${escapeHtml(professor.nome)} - ${escapeHtml(professor.disciplina_nome || 'Cadeira não informada')}</option>`
       )).join('');
+      const semesterInfo = document.getElementById('semesterInfo');
+      if (semesterInfo) {
+        semesterInfo.textContent = `Só é possível avaliar professores associados ao ${currentSemester()} desta unidade curricular.`;
+      }
+
       renderProfessorCatalog();
       syncDepartment();
       restoreDraft();

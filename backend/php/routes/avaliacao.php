@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/conexao.php';
 require_once __DIR__ . '/../helpers/json.php';
+require_once __DIR__ . '/../helpers/semestre.php';
 
 try {
     $db = (new Database())->connect();
@@ -92,6 +93,28 @@ try {
             $disponibilidade, $respeito, $pontualidade
         ];
 
+        $today = date('Y-m-d');
+        $semestreAtual = get_semestre_atual($today);
+        $semestreStmt = $db->prepare(
+            'SELECT id, semestre, ano FROM calendario_semestres
+             WHERE (ativo = 1 OR :today BETWEEN data_inicio AND data_fim)
+               AND semestre = :semestre
+             ORDER BY ativo DESC, data_inicio DESC
+             LIMIT 1'
+        );
+        $semestreStmt->execute([
+            ':today' => $today,
+            ':semestre' => $semestreAtual
+        ]);
+        $semestreInfo = $semestreStmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$semestreInfo) {
+            json_response([
+                'success' => false,
+                'message' => 'Não existe um período ativo de avaliação para o semestre atual.'
+            ], 403);
+        }
+
         if ($alunoId <= 0 || $professorId <= 0 || $disciplinaId <= 0) {
             if ($alunoId > 0 && $professorId > 0 && $disciplinaId <= 0) {
                 $resolveDisciplina = $db->prepare('
@@ -133,24 +156,66 @@ try {
             ], 422);
         }
 
+        $matriculaStmt = $db->prepare(
+            'SELECT id
+             FROM matriculas
+             WHERE usuario_id = :aluno_id
+               AND disciplina_id = :disciplina_id
+               AND calendario_id = :calendario_id
+             LIMIT 1'
+        );
+        $matriculaStmt->execute([
+            ':aluno_id' => $alunoId,
+            ':disciplina_id' => $disciplinaId,
+            ':calendario_id' => (int)$semestreInfo['id']
+        ]);
+
+        if (!$matriculaStmt->fetch(PDO::FETCH_ASSOC)) {
+            json_response([
+                'success' => false,
+                'message' => 'Só é possível avaliar professores da disciplina em que está matriculado neste semestre.'
+            ], 403);
+        }
+
+        $professorDisciplinaStmt = $db->prepare(
+            'SELECT id
+             FROM professor_disciplinas
+             WHERE professor_id = :professor_id
+               AND disciplina_id = :disciplina_id
+             LIMIT 1'
+        );
+        $professorDisciplinaStmt->execute([
+            ':professor_id' => $professorId,
+            ':disciplina_id' => $disciplinaId
+        ]);
+
+        if (!$professorDisciplinaStmt->fetch(PDO::FETCH_ASSOC)) {
+            json_response([
+                'success' => false,
+                'message' => 'Este professor não está associado a esta disciplina.'
+            ], 422);
+        }
+
         $stmt = $db->prepare(
             'SELECT a.id
              FROM avaliacoes a
              WHERE a.aluno_id = :aluno_id
                AND a.professor_id = :professor_id
                AND a.disciplina_id = :disciplina_id
+               AND a.calendario_id = :calendario_id
              LIMIT 1'
         );
         $stmt->execute([
             ':aluno_id' => $alunoId,
             ':professor_id' => $professorId,
-            ':disciplina_id' => $disciplinaId
+            ':disciplina_id' => $disciplinaId,
+            ':calendario_id' => (int)$semestreInfo['id']
         ]);
 
         if ($stmt->fetch(PDO::FETCH_ASSOC)) {
             json_response([
                 'success' => false,
-                'message' => 'Já avaliou este professor nesta disciplina.'
+                'message' => 'Já avaliou este professor nesta disciplina neste semestre.'
             ], 409);
         }
 
@@ -162,6 +227,7 @@ try {
             'aluno_id' => $alunoId,
             'professor_id' => $professorId,
             'disciplina_id' => $disciplinaId,
+            'calendario_id' => (int)$semestreInfo['id'],
             'clareza' => $clareza,
             'dinamismo' => $dinamismo,
             'recursos' => $recursos,

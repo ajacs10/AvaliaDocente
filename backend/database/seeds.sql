@@ -16,11 +16,43 @@ INSERT INTO anos_letivos (id, ano_inicio, ano_fim, descricao, ativo) VALUES
 (2, 2026, 2027, 'Ano Letivo 2026/2027', TRUE);
 
 INSERT INTO disciplinas (id, nome, sigla, curso_id, ano_academico, semestre, status) VALUES
+-- 1.º Ano
 (1, 'Álgebra Linear', 'AL', 1, 1, 1, 'Regulamentar'),
 (2, 'Análise Matemática I', 'AM I', 1, 1, 1, 'Regulamentar'),
-(5, 'Introdução aos Computadores e Programação', 'ICP', 1, 1, 1, 'Regulamentar'),
-(31, 'Programação III (IA)', 'PROG III', 1, 4, 1, 'Regulamentar'),
-(33, 'Análise de Sistemas II', 'ASI II', 1, 4, 2, 'Regulamentar'),
+(3, 'Métodos de Investigação Científica', 'MIC', 1, 1, 1, 'Regulamentar'),
+(4, 'Química Fundamental', 'QF', 1, 1, 1, 'Regulamentar'),
+(5, 'Introdução aos Computadores e Programação', 'ICP', 1, 1, 2, 'Regulamentar'),
+(6, 'Análise Matemática II', 'AM II', 1, 1, 2, 'Regulamentar'),
+(7, 'Física I', 'FIS I', 1, 1, 2, 'Regulamentar'),
+(8, 'Química Orgânica', 'QO', 1, 1, 2, 'Regulamentar'),
+-- 2.º Ano
+(9, 'Análise Matemática III', 'AM III', 1, 2, 1, 'Regulamentar'),
+(10, 'Física II', 'FIS II', 1, 2, 1, 'Regulamentar'),
+(11, 'Introdução à Organização e à Gestão', 'IOG', 1, 2, 1, 'Regulamentar'),
+(12, 'Língua Inglesa I', 'ING I', 1, 2, 1, 'Regulamentar'),
+(13, 'Comunicação Pessoal e Empresarial', 'CPE', 1, 2, 1, 'Regulamentar'),
+(14, 'Análise Matemática IV', 'AM IV', 1, 2, 2, 'Regulamentar'),
+(15, 'Física III', 'FIS III', 1, 2, 2, 'Regulamentar'),
+(16, 'Língua Inglesa II', 'ING II', 1, 2, 2, 'Regulamentar'),
+(17, 'Sistemas Digitais', 'SD', 1, 2, 2, 'Regulamentar'),
+-- 3.º Ano
+(18, 'Análises Numérica Científica', 'ANC', 1, 3, 1, 'Regulamentar'),
+(19, 'Fundamentos de Sistemas de Informação', 'FSI', 1, 3, 1, 'Regulamentar'),
+(20, 'Língua Inglesa III', 'ING III', 1, 3, 1, 'Regulamentar'),
+(21, 'Probabilidades e Estatística', 'PE', 1, 3, 1, 'Regulamentar'),
+(22, 'Programação I — Algoritmos e Estrut. de Dados', 'PROG I', 1, 3, 1, 'Regulamentar'),
+(23, 'Arquitetura de Computadores I', 'AC I', 1, 3, 2, 'Regulamentar'),
+(24, 'Base de Dados', 'BD', 1, 3, 2, 'Regulamentar'),
+(25, 'Língua Inglesa IV', 'ING IV', 1, 3, 2, 'Regulamentar'),
+(26, 'Mecânica I', 'MEC I', 1, 3, 2, 'Regulamentar'),
+(27, 'Programação II', 'PROG II', 1, 3, 2, 'Regulamentar'),
+-- 4.º Ano
+(28, 'Análise de Sistemas', 'AS', 1, 4, 1, 'Regulamentar'),
+(29, 'Arquitectura de Computadores II', 'AC II', 1, 4, 1, 'Regulamentar'),
+(30, 'Base de Dados II', 'BD II', 1, 4, 1, 'Regulamentar'),
+(31, 'Programação III', 'PROG III', 1, 4, 1, 'Regulamentar'),
+(32, 'Sistemas Operativos I', 'SO I', 1, 4, 1, 'Regulamentar'),
+(33, 'Análise de Sistemas de Informação', 'ASI', 1, 4, 2, 'Regulamentar'),
 (34, 'Computação Gráfica', 'CG', 1, 4, 2, 'Regulamentar'),
 (35, 'Programação IV - Linguagens e Tecnologias WEB', 'PROG IV', 1, 4, 2, 'Regulamentar'),
 (36, 'Redes de Computadores', 'RC', 1, 4, 2, 'Regulamentar'),
@@ -55,7 +87,14 @@ INSERT INTO professores (id, nome, departamento, foto_perfil) VALUES
 INSERT INTO professor_disciplinas (professor_id, disciplina_id) VALUES
 (1, 31), (2, 5), (4, 33), (4, 35), (3, 34), (18, 36), (5, 37),
 (12, 48), (13, 49), (14, 50), (15, 51),
-(16, 52), (17, 53), (18, 54);
+(16, 52), (17, 53), (18, 54),
+-- Disciplinas adicionais (2.º e 3.º ano)
+(10, 6), -- Professor Conde -> Análise Matemática II (2.º ano)
+(6, 7),  -- Professor Maximo -> Física I (2.º ano)
+(2, 8),  -- Professor Tawana -> Programação II (2.º ano)
+(3, 9),  -- Wilson Paiva -> Base de Dados (3.º ano)
+(5, 10), -- Prof. Edilson Cruz -> Sistemas Operativos I (3.º ano)
+(4, 11); -- Prof. Doutor Yoelkis Victor -> Engenharia de Software (3.º ano)
 
 INSERT INTO calendario_semestres (id, ano_letivo_id, semestre, data_inicio, data_fim, ativo) VALUES
 (1, 1, 1, '2025-08-25', '2026-02-21', FALSE),
@@ -77,10 +116,11 @@ INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso_id, ano_acad
 (990009, 'Professor Afonso', 'afonso@avaliadocente.local', NULL, '../assets/images/professores/placeholder.svg', 1, 0, '$2y$10$tTP71SuaXf3iEuTjgvbCcOyuFqU0vZNoV2tKkkV.5T28XiYGe16iK', 'professor', 9),
 (990010, 'Professor Conde', 'conde@avaliadocente.local', NULL, '../assets/images/professores/placeholder.svg', 1, 0, '$2y$10$tTP71SuaXf3iEuTjgvbCcOyuFqU0vZNoV2tKkkV.5T28XiYGe16iK', 'professor', 10);
 
--- Coordenador (pode ver métricas agregadas mas não identifica avaliadores)
 INSERT INTO usuarios (id, nome, email, telefone, foto_perfil, curso_id, ano_academico, senha, tipo, professor_id) VALUES
 (900000, 'Coordenador Local', 'coordenador@avaliadocente.local', '900000001', NULL, 1, 0, 'coord123', 'admin', NULL);
 
 INSERT INTO matriculas (usuario_id, disciplina_id, calendario_id) VALUES
 (220429, 33, 2), (220429, 34, 2), (220429, 35, 2), (220429, 36, 2), (220429, 37, 2),
-(220430, 33, 2), (220430, 34, 2), (220430, 35, 2), (220430, 36, 2), (220430, 37, 2);
+(220430, 33, 2), (220430, 34, 2), (220430, 35, 2), (220430, 36, 2), (220430, 37, 2),
+(220431, 6, 1), (220431, 7, 1), (220431, 8, 2),
+(220432, 9, 1), (220432, 10, 1), (220432, 11, 2);

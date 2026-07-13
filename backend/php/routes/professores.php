@@ -62,12 +62,12 @@ try {
         }
     }
 
-    if ($alunoId > 0) {
-        $sql .= ' INNER JOIN matriculas m ON m.disciplina_id = d.id
-                  INNER JOIN calendario_semestres cs ON cs.id = m.calendario_id AND cs.semestre = d.semestre';
-        $filters[] = 'm.usuario_id = :aluno_id';
-        $params[':aluno_id'] = $alunoId;
-    }
+    // Nota: anteriormente filtrávamos as disciplinas por matrícula do aluno
+    // (INNER JOIN matriculas) para só mostrar disciplinas onde existia
+    // matrícula do `aluno_id`. Para permitir que todo estudante do mesmo
+    // curso/ano/semestre possa avaliar, removemos essa restrição — a
+    // listagem passa a respeitar apenas os filtros de `curso`, `ano` e
+    // `semestre` recebidos do frontend.
 
     if ($filters) {
         $sql .= ' WHERE ' . implode(' AND ', $filters);

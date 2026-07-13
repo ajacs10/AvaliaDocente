@@ -232,6 +232,15 @@ Após autenticação:
 * Nenhum estudante pode ser identificado individualmente.
 * Todas as avaliações permanecem anónimas.
 
+### Quem pode avaliar (regra atual)
+
+Por predefinição o sistema permite que qualquer estudante autenticado avalie os docentes associados ao seu **curso**, **ano académico** e **semestre**. Ou seja:
+
+- Estudantes com o mesmo `curso`, `ano_academico` e `semestre` veem a mesma lista de disciplinas e respectivos professores e podem submeter avaliações.
+- Não é necessário ter uma entrada concreta em `matriculas` para que um estudante veja os professores — esta decisão foi aplicada para permitir avaliações por turma/ano sem exigir registos de matrícula disciplina-a-disciplina.
+
+Se preferir exigir que só estudantes com matrícula na disciplina possam avaliar, reverta o filtro por `matriculas` em `backend/php/routes/professores.php` (código comentado/alterado). Esta mudança está documentada no historial de commits e pode ser personalizada conforme a política da instituição.
+
 ---
 
 ## Corpo Discente

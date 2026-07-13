@@ -1,7 +1,6 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- Remover tabelas na ordem correta para evitar erros de dependência
 DROP TABLE IF EXISTS avaliacoes;
 DROP TABLE IF EXISTS matriculas;
 DROP TABLE IF EXISTS professor_disciplinas;
@@ -14,9 +13,6 @@ DROP TABLE IF EXISTS anos_letivos;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- =============================================
--- CRIAÇÃO DAS TABELAS
--- =============================================
 
 CREATE TABLE cursos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -50,7 +46,7 @@ CREATE TABLE usuarios (
     telefone VARCHAR(30),
     foto_perfil VARCHAR(255),
     curso_id INT NOT NULL,
-    ano_academico TINYINT NOT NULL,
+    ano_academico TINYINT NOT NULL CHECK (ano_academico BETWEEN 0 AND 7),
     senha VARCHAR(255) NOT NULL,
     tipo ENUM('aluno','professor','admin') DEFAULT 'aluno',
     professor_id INT NULL,
@@ -65,7 +61,7 @@ CREATE TABLE disciplinas (
     sigla VARCHAR(30),
     curso_id INT NOT NULL,
     ano_academico TINYINT NOT NULL,
-    semestre TINYINT NOT NULL,
+    semestre TINYINT NOT NULL CHECK (semestre IN (1, 2)),
     status ENUM('Regulamentar','Opcional','Concluída') DEFAULT 'Regulamentar',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (curso_id) REFERENCES cursos(id) ON DELETE RESTRICT,
@@ -83,7 +79,7 @@ CREATE TABLE professor_disciplinas (
 CREATE TABLE calendario_semestres (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ano_letivo_id INT NOT NULL,
-    semestre TINYINT NOT NULL,
+    semestre TINYINT NOT NULL CHECK (semestre IN (1, 2)),
     data_inicio DATE NOT NULL,
     data_fim DATE NOT NULL,
     ativo BOOLEAN DEFAULT FALSE,
@@ -130,9 +126,6 @@ CREATE TABLE avaliacoes (
     UNIQUE KEY uk_avaliacao (aluno_id, professor_id, disciplina_id, calendario_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =============================================
--- ÍNDICES PARA MELHOR PERFORMANCE
--- =============================================
 CREATE INDEX idx_usuario_email ON usuarios(email);
 CREATE INDEX idx_usuario_tipo ON usuarios(tipo);
 CREATE INDEX idx_usuario_curso ON usuarios(curso_id);

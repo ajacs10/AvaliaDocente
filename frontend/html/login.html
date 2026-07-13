@@ -26,12 +26,12 @@
         <p>Aceda à plataforma de avaliação académica com a sua credencial institucional</p>
 
         <form id="loginForm" novalidate>
-          <label>Número, email ou nome</label>
-          <input type="text" placeholder="gmail ou n-estudante">
+          <label>Número de estudante, email ou nome</label>
+          <input type="text" name="student" placeholder="Número de estudante, email ou nome" autocomplete="username">
 
           <label>Senha</label>
           <div class="password-shell">
-            <input id="passwordField" type="password" placeholder="Introduza a sua senha">
+            <input id="passwordField" name="password" type="password" placeholder="Introduza a sua senha" autocomplete="current-password">
             <button type="button" class="toggle-password" aria-pressed="false" aria-label="Mostrar senha">
               <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.25 12c1.83-4.5 6-7.5 9.75-7.5s7.92 3 9.75 7.5c-1.83 4.5-6 7.5-9.75 7.5S4.08 16.5 2.25 12z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>

@@ -10,7 +10,8 @@ try {
         SELECT 
             a.professor_id,
             p.nome AS professor_nome,
-            d.curso,
+            d.curso_id,
+            c.nome AS curso,
             d.ano_academico,
             d.semestre,
             a.aluno_id,
@@ -31,17 +32,22 @@ try {
                 COALESCE(a.disponibilidade,0) + COALESCE(a.respeito,0) + COALESCE(a.pontualidade,0)
             ) / 8, 2) AS media_geral
         FROM avaliacoes a
-        INNER JOIN professores p ON p.id = a.professor_id
+        LEFT JOIN professores p ON p.id = a.professor_id
         LEFT JOIN disciplinas d ON d.id = a.disciplina_id
+        LEFT JOIN cursos c ON c.id = d.curso_id
         ORDER BY a.created_at DESC
     ";
 
     $stmt = $db->query($sql);
     $avaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $totalEstudantes = (int)$db
+        ->query("SELECT COUNT(*) FROM usuarios WHERE tipo = 'aluno'")
+        ->fetchColumn();
+
     json_response([
         'success' => true,
-        'data' => resumir_avaliacoes_direcao($avaliacoes)
+        'data' => resumir_avaliacoes_direcao($avaliacoes, $totalEstudantes)
     ]);
 } catch (Throwable $e) {
     json_response([

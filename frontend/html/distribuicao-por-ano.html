@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Direção - AvaliaDocente</title>
+  <title>Distribuição por ano - Direção</title>
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/global.css">
@@ -12,14 +12,14 @@
   <link rel="stylesheet" href="../css/components/sidebar.css?v=20260710-1">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="dashboard-direcao">
+<body class="dashboard-direcao" data-report-section="ano">
   <div class="dashboard-container">
     <div id="sidebar-root"></div>
     <main class="dashboard-main">
       <header class="dash-header">
         <div class="welcome-text">
-          <h1 id="dashboardGreeting">Painel da Direção</h1>
-          <p class="header-security"><strong>Relatórios anónimos e agregados.</strong> Não é possível identificar os estudantes nas análises.</p>
+          <h1 id="dashboardGreeting">Distribuição por ano</h1>
+          <p class="header-security"><strong>Distribuição de avaliações por ano académico.</strong> Dados agregados por curso.</p>
         </div>
         <div class="header-actions">
           <button class="notification-btn" aria-label="Notificações"><i data-lucide="bell"></i></button>
@@ -35,53 +35,26 @@
       </header>
 
       <section class="page-content">
+        <div class="report-overview">
+          <section class="report-stat-card"><span>Total de avaliações</span><strong id="reportTotal">—</strong></section>
+          <section class="report-stat-card"><span>Anos com dados</span><strong id="reportItemsTotal">—</strong></section>
+        </div>
         <div class="action-row">
           <button class="btn-primary btn-pdf" id="exportPdfBtn" type="button" aria-label="Exportar relatório em PDF"><i data-lucide="file-text"></i><span>Exportar PDF</span></button>
         </div>
 
-        <div class="page-grid">
-          <section class="page-card">
-            <h2 class="card-title">Total de avaliações</h2>
-            <p class="card-value" id="totalAvaliacoes">0</p>
-          </section>
-          <section class="page-card">
-            <h2 class="card-title">Total de estudantes</h2>
-            <p class="card-value" id="totalEstudantes">0</p>
-          </section>
-          <section class="page-card">
-            <h2 class="card-title">Média geral</h2>
-            <p class="card-value" id="mediaGeral">0,00</p>
-          </section>
-        </div>
-
-        <div class="page-grid">
-          <section class="page-card">
-            <h2 class="card-title">Cursos mais avaliados</h2>
-            <div id="cursoList" class="inline-list"></div>
-          </section>
-          <section class="page-card">
-            <h2 class="card-title">Top professores</h2>
-            <div id="rankingList" class="inline-list"></div>
-          </section>
-        </div>
-
-        <div class="page-grid">
-          <section class="page-card">
-            <h2 class="card-title">Distribuição por ano</h2>
-            <div id="anoList" class="inline-list"></div>
-          </section>
-          <section class="page-card">
-            <h2 class="card-title">Distribuição por semestre</h2>
-            <div id="semestreList" class="inline-list"></div>
-          </section>
-        </div>
+        <section class="page-card">
+          <h2 class="card-title">Distribuição por ano</h2>
+          <p class="card-text">Quantidade de avaliações por ano académico.</p>
+          <div id="reportList" class="inline-list"></div>
+        </section>
       </section>
     </main>
   </div>
 
   <script src="../js/include-sidebar.js?v=20260710-1"></script>
   <script src="../js/dashboard.js?v=20260710-1"></script>
-  <script src="../js/dashboard-direcao.js?v=20260710-1"></script>
+  <script src="../js/dashboard-direcao-sections.js?v=20260710-1"></script>
   <script>if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();</script>
 </body>
 </html>

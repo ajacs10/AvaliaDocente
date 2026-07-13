@@ -7,6 +7,7 @@ const ProfessorAPI = {
     if (filtros.semestre) params.set('semestre', filtros.semestre);
     if (filtros.disciplina) params.set('disciplina', filtros.disciplina);
     if (filtros.disciplina_id) params.set('disciplina_id', filtros.disciplina_id);
+    if (filtros.aluno_id) params.set('aluno_id', filtros.aluno_id);
 
     const query = params.toString() ? `?${params.toString()}` : '';
     const response = await fetch(`../../backend/php/routes/professores.php${query}`, {

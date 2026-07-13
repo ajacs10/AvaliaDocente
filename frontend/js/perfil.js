@@ -70,6 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
     element.style.color = isError ? '#b91c1c' : '#047857';
   };
 
+  const normalizePhone = (value) => String(value || '').replace(/\D+/g, '');
+  const isValidPhone = (value) => {
+    const normalized = normalizePhone(value);
+    return normalized === '' || /^9\d{8}$/.test(normalized);
+  };
+
   const renderPhoto = (name, photo) => {
     if (!profilePhoto) return;
     if (photo) {
@@ -101,8 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const explicitType = String(user.tipo || window.sessionStorage.getItem('sistema-avaliacao:userType') || '').toLowerCase();
     const nameHint = String(user.nome || window.sessionStorage.getItem('sistema-avaliacao:studentName') || '').toLowerCase();
+    const isAdminType = /^(admin|coordenador local|coordenador|direcao)$/.test(explicitType);
     const roleHint = /professor|docente/.test(explicitType) || /professor|docente/.test(nameHint);
-    const userType = explicitType === 'admin' ? 'admin' : roleHint ? 'professor' : 'aluno';
+    const userType = isAdminType ? 'admin' : roleHint ? 'professor' : 'aluno';
     const isProfessor = userType === 'professor';
     const isAdmin = userType === 'admin';
 
@@ -175,6 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!id) {
         setMessage(profileMessage, 'Inicie sessão para guardar alterações.', true);
         return;
+      }
+
+      const phoneValue = profilePhone ? profilePhone.value.trim() : '';
+      if (!isValidPhone(phoneValue)) {
+        setMessage(profileMessage, 'Telefone inválido. Deve ter 9 dígitos e começar com 9.', true);
+        return;
+      }
+      if (profilePhone) {
+        profilePhone.value = normalizePhone(phoneValue);
       }
 
       const formData = new FormData(profileForm);

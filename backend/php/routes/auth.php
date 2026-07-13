@@ -15,12 +15,48 @@ try {
     $data = request_json();
 
     $studentId = trim((string)($data['student_id'] ?? ''));
-    $password  = (string)($data['password'] ?? '');
+    $password  = trim((string)($data['password'] ?? ''));
 
-    if ($studentId === '' || $password === '') {
+    if ($studentId === '') {
         json_response([
             'success' => false,
-            'message' => 'Informe numero de estudante e senha.'
+            'message' => 'Informe o número de estudante, email ou nome.'
+        ], 422);
+    }
+
+    if ($password === '') {
+        json_response([
+            'success' => false,
+            'message' => 'Informe a senha.'
+        ], 422);
+    }
+
+    if (mb_strlen($password) < 4) {
+        json_response([
+            'success' => false,
+            'message' => 'A senha deve ter pelo menos 4 caracteres.'
+        ], 422);
+    }
+
+    if (strpos($studentId, '@') !== false) {
+        if (!filter_var($studentId, FILTER_VALIDATE_EMAIL)) {
+            json_response([
+                'success' => false,
+                'message' => 'Email inválido.'
+            ], 422);
+        }
+    } elseif (ctype_digit($studentId)) {
+        $studentLength = strlen($studentId);
+        if ($studentLength < 4 || $studentLength > 12) {
+            json_response([
+                'success' => false,
+                'message' => 'Número de estudante inválido.'
+            ], 422);
+        }
+    } elseif (mb_strlen($studentId) < 2) {
+        json_response([
+            'success' => false,
+            'message' => 'Nome inválido.'
         ], 422);
     }
 

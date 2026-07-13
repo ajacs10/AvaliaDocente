@@ -68,7 +68,7 @@ try {
             ROUND(AVG({$exprPontualidade}), 1) AS media_pontualidade
         FROM professores p
         LEFT JOIN professor_disciplinas pd ON pd.professor_id = p.id
-        LEFT JOIN disciplinas d ON d.id = COALESCE(pd.disciplina_id, p.disciplina_id)
+        LEFT JOIN disciplinas d ON d.id = pd.disciplina_id
         LEFT JOIN avaliacoes a ON a.professor_id = p.id AND a.disciplina_id = d.id
         WHERE p.id = :professor_id
         GROUP BY p.id, d.id, d.nome

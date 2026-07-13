@@ -25,6 +25,13 @@ function hydrateSessionFromRememberedLogin() {
   });
 }
 
+function normalizeUserType(value) {
+  const normalized = String(value || '').toLowerCase().trim();
+  if (['admin', 'coordenador local', 'coordenador', 'direcao'].includes(normalized)) return 'admin';
+  if (normalized === 'professor') return 'professor';
+  return 'aluno';
+}
+
 function enforcePageAccess() {
   hydrateSessionFromRememberedLogin();
   const currentPage = location.pathname.split('/').pop() || 'dashboard-aluno.html';
@@ -35,7 +42,7 @@ function enforcePageAccess() {
     return false;
   }
 
-  const userType = getAuthValue('sistema-avaliacao:userType', 'aluno').toLowerCase();
+  const userType = normalizeUserType(getAuthValue('sistema-avaliacao:userType', 'aluno'));
   const studentOnlyPages = new Set([
     'dashboard-aluno.html',
     'avaliar-professor.html',
@@ -46,7 +53,11 @@ function enforcePageAccess() {
     'relatorio-professor.html'
   ]);
   const directionOnlyPages = new Set([
-    'dashboard-direcao.html'
+    'dashboard-direcao.html',
+    'cursos-mais-avaliados.html',
+    'top-professores.html',
+    'distribuicao-por-ano.html',
+    'distribuicao-por-semestre.html'
   ]);
 
   if (userType === 'professor' && studentOnlyPages.has(currentPage)) {
@@ -74,7 +85,7 @@ function enforcePageAccess() {
 
 function setupLoggedUser() {
   const loggedUserName = document.getElementById('loggedUserName');
-  const userType = getAuthValue('sistema-avaliacao:userType', 'aluno').toLowerCase();
+  const userType = normalizeUserType(getAuthValue('sistema-avaliacao:userType', 'aluno'));
   const storedName = getAuthValue('sistema-avaliacao:studentName');
   const storedPhoto = getAuthValue('sistema-avaliacao:studentPhoto');
   const defaultName = userType === 'professor' ? 'Professor' : userType === 'admin' ? 'Direção' : 'Estudante';
@@ -94,36 +105,6 @@ function setupLoggedUser() {
     const roleLabel = userType === 'professor' ? 'Professor' : userType === 'admin' ? 'Direção' : 'Estudante';
     element.textContent = roleLabel;
   });
-
-  if (userType === 'admin') {
-    const sidebarMenu = document.querySelector('.sidebar .menu');
-    if (sidebarMenu) {
-      sidebarMenu.querySelectorAll('.menu-item').forEach((link) => {
-        const href = link.getAttribute('href');
-        if (!['dashboard-direcao.html', 'perfil.html'].includes(href)) {
-          link.remove();
-        }
-      });
-
-      if (!sidebarMenu.querySelector('a[href="dashboard-direcao.html"]')) {
-        const directionLink = document.createElement('a');
-        directionLink.className = 'menu-item';
-        directionLink.href = 'dashboard-direcao.html';
-        directionLink.innerHTML = '<i data-lucide="line-chart"></i><span>Painel Direção</span>';
-        sidebarMenu.insertAdjacentElement('afterbegin', directionLink);
-      }
-      if (!sidebarMenu.querySelector('a[href="perfil.html"]')) {
-        const profileLink = document.createElement('a');
-        profileLink.className = 'menu-item';
-        profileLink.href = 'perfil.html';
-        profileLink.innerHTML = '<i data-lucide="user"></i><span>Perfil</span>';
-        sidebarMenu.appendChild(profileLink);
-      }
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-      }
-    }
-  }
 
   if (userType === 'professor') {
     document.querySelectorAll('.dash-header .header-security').forEach((element) => {

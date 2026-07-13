@@ -6,20 +6,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   const rankingListEl = document.getElementById('rankingList');
   const anoListEl = document.getElementById('anoList');
   const semestreListEl = document.getElementById('semestreList');
-  const exportCsvBtn = document.getElementById('exportCsvBtn');
   const exportPdfBtn = document.getElementById('exportPdfBtn');
   let reportData = null;
+
+  if (!totalAvaliacoesEl && !totalEstudantesEl && !mediaGeralEl && !cursoListEl && !rankingListEl && !anoListEl && !semestreListEl) {
+    return;
+  }
 
   const formatScore = (value) => Number(value || 0).toFixed(2).replace('.', ',');
 
   const renderList = (target, items, formatter) => {
     if (!target) return;
+    const card = target.closest('section.page-card');
     target.innerHTML = '';
     if (!items?.length) {
-      target.innerHTML = '<p class="helper-text">Sem dados para apresentar.</p>';
+      if (card) card.hidden = true;
       return;
     }
 
+    if (card) card.hidden = false;
     const fragment = document.createDocumentFragment();
     items.forEach((item) => {
       const row = document.createElement('div');
@@ -35,9 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const result = await response.json();
     if (!response.ok || !result.success) throw new Error(result.message || 'Não foi possível carregar o relatório.');
     reportData = result.data || {};
-    totalAvaliacoesEl.textContent = reportData.total_avaliacoes || 0;
-    totalEstudantesEl.textContent = reportData.total_estudantes || 0;
-    mediaGeralEl.textContent = formatScore(reportData.media_geral || 0);
+    if (totalAvaliacoesEl) totalAvaliacoesEl.textContent = reportData.total_avaliacoes || 0;
+    if (totalEstudantesEl) totalEstudantesEl.textContent = reportData.total_estudantes || 0;
+    if (mediaGeralEl) mediaGeralEl.textContent = formatScore(reportData.media_geral || 0);
 
     const cursos = Object.entries(reportData.por_curso || {}).sort((a, b) => b[1] - a[1]);
     renderList(cursoListEl, cursos, ([curso, valor]) => `<strong>${curso}</strong><span>${valor} avaliação(ões)</span>`);
@@ -51,29 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const semestres = Object.entries(reportData.por_semestre || {}).sort((a, b) => b[1] - a[1]);
     renderList(semestreListEl, semestres, ([semestre, valor]) => `<strong>${semestre}</strong><span>${valor} avaliação(ões)</span>`);
   };
-
-  exportCsvBtn?.addEventListener('click', () => {
-    if (!reportData) return;
-    const rows = [
-      ['Métrica', 'Valor'],
-      ['Avaliações', reportData.total_avaliacoes || 0],
-      ['Estudantes', reportData.total_estudantes || 0],
-      ['Média geral', reportData.media_geral || 0],
-      ['', ''],
-      ['Curso', 'Quantidade'],
-      ...Object.entries(reportData.por_curso || {}).sort((a, b) => b[1] - a[1])
-    ];
-    const csv = rows.map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(';')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'relatorio-direcao.csv';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  });
 
   exportPdfBtn?.addEventListener('click', () => {
     if (!reportData) return;

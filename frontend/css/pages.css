@@ -99,6 +99,33 @@
     color: #0f172a;
 }
 
+.report-overview {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.report-stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 24px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+}
+
+.report-stat-card span {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.report-stat-card strong {
+    color: #0f172a;
+    font-size: 1.75rem;
+}
+
 .dashboard-direcao .btn-primary {
     background: #0f172a;
     color: white;
@@ -107,6 +134,22 @@
     font-weight: 600;
     border: none;
     cursor: pointer;
+}
+
+.dashboard-direcao .btn-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #b91c1c;
+}
+
+.dashboard-direcao .btn-pdf:hover {
+    background: #991b1b;
+}
+
+.dashboard-direcao .btn-pdf svg {
+    width: 18px;
+    height: 18px;
 }
 
 .dashboard-direcao .card-title {
@@ -435,6 +478,24 @@
 .muted {
     color: #64748b;
     overflow-wrap: anywhere;
+}
+
+.dashboard-direcao .mini-item {
+    flex-wrap: wrap;
+}
+
+.report-progress-bar {
+    flex-basis: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2e8f0;
+}
+
+.report-progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #4f46e5, #818cf8);
 }
 
 .my-evaluation-item {
@@ -903,6 +964,18 @@ body.modal-open { overflow: hidden; }
     justify-content: center;
 }
 
+.professor-semester-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
 .professor-card strong,
 .professor-card span,
 .professor-card small {
@@ -999,6 +1072,10 @@ body.modal-open { overflow: hidden; }
 }
 
 @media (max-width: 768px) {
+    .report-overview {
+        grid-template-columns: 1fr;
+    }
+
     .page-content {
         padding: 24px 20px;
     }

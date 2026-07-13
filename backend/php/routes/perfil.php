@@ -58,6 +58,11 @@ try {
             json_response(['success' => false, 'message' => 'Informe um email valido.'], 422);
         }
 
+        $telefone = preg_replace('/\D+/', '', $telefone);
+        if ($telefone !== '' && !preg_match('/^9\d{8}$/', $telefone)) {
+            json_response(['success' => false, 'message' => 'Telefone inválido. Deve ter 9 dígitos e começar com 9.' ], 422);
+        }
+
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
             if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
                 json_response(['success' => false, 'message' => 'Nao foi possivel receber a foto.'], 422);

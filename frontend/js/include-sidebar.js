@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', function(){
     return window.sessionStorage.getItem(key) || window.localStorage.getItem(key) || fallback;
   };
 
+  const isAuthenticated = () => getAuthValue('sistema-avaliacao:authenticated', 'false') === 'true';
+
+  const normalizeUserType = (value) => {
+    const normalized = String(value || '').toLowerCase().trim();
+    if (['admin', 'coordenador local', 'coordenador', 'direcao'].includes(normalized)) return 'admin';
+    if (normalized === 'professor') return 'professor';
+    return 'aluno';
+  };
+
   // Ensure sessionStorage is hydrated from persistent login before reading values.
   const hydrateSessionFromRememberedLogin = () => {
     const keys = [
@@ -56,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // mark active menu item based on current page
         try {
           const items = aside.querySelectorAll('.menu a.menu-item');
-          const userType = getAuthValue('sistema-avaliacao:userType', 'aluno').toLowerCase();
+          const userType = isAuthenticated() ? normalizeUserType(getAuthValue('sistema-avaliacao:userType', 'aluno')) : 'aluno';
           const current = location.pathname.split('/').pop() || (userType === 'professor' ? 'dashboard-professor.html' : userType === 'admin' ? 'dashboard-direcao.html' : 'dashboard-aluno.html');
 
           const createMenuItem = (href, icon, label) => {
@@ -67,37 +76,35 @@ document.addEventListener('DOMContentLoaded', function(){
             return item;
           };
 
-          if (userType === 'professor') {
-            const dashboardLink = aside.querySelector('.menu a[href="dashboard-aluno.html"]');
-            if (dashboardLink) {
-              dashboardLink.setAttribute('href', 'dashboard-professor.html');
-              const textNode = dashboardLink.querySelector('span');
-              if (textNode) textNode.textContent = 'Dashboard Professor';
+          const menu = aside.querySelector('.menu');
+          if (menu) {
+            menu.innerHTML = '';
 
-              if (!aside.querySelector('.menu a[href="relatorio-professor.html"]')) {
-                const reportLink = createMenuItem('relatorio-professor.html', 'bar-chart-2', 'Ver avaliações');
-                dashboardLink.insertAdjacentElement('afterend', reportLink);
-              }
-            }
-
-            ['avaliar-professor.html', 'minhas-avaliacoes.html'].forEach((href) => {
-              const link = aside.querySelector(`.menu a[href="${href}"]`);
-              if (link) link.remove();
-            });
-          } else if (userType === 'admin') {
-            const menu = aside.querySelector('.menu');
-            if (menu) {
-              menu.innerHTML = '';
+            if (userType === 'professor') {
+              menu.appendChild(createMenuItem('dashboard-professor.html', 'home', 'Dashboard Professor'));
+              menu.appendChild(createMenuItem('relatorio-professor.html', 'bar-chart-2', 'Ver avaliações'));
+              menu.appendChild(createMenuItem('perfil.html', 'user', 'Perfil'));
+              menu.appendChild(createMenuItem('como-funciona.html', 'info', 'Como Funciona'));
+              menu.appendChild(createMenuItem('duvidas.html', 'help-circle', 'Dúvidas e critérios'));
+            } else if (userType === 'admin') {
               menu.appendChild(createMenuItem('dashboard-direcao.html', 'line-chart', 'Painel Direção'));
               menu.appendChild(createMenuItem('perfil.html', 'user', 'Perfil'));
+              menu.appendChild(createMenuItem('cursos-mais-avaliados.html', 'book-open', 'Cursos mais avaliados'));
+              menu.appendChild(createMenuItem('top-professores.html', 'star', 'Top professores'));
+              menu.appendChild(createMenuItem('distribuicao-por-semestre.html', 'layers', 'Distribuição por semestre'));
+              menu.appendChild(createMenuItem('distribuicao-por-ano.html', 'bar-chart-2', 'Distribuição por ano'));
+            } else {
+              menu.appendChild(createMenuItem('dashboard-aluno.html', 'home', 'Dashboard'));
+              menu.appendChild(createMenuItem('avaliar-professor.html', 'clipboard-check', 'Avaliar professor'));
+              menu.appendChild(createMenuItem('minhas-avaliacoes.html', 'list-checks', 'Minhas avaliações'));
+              menu.appendChild(createMenuItem('perfil.html', 'user', 'Perfil'));
+              menu.appendChild(createMenuItem('como-funciona.html', 'info', 'Como Funciona'));
+              menu.appendChild(createMenuItem('duvidas.html', 'help-circle', 'Dúvidas e critérios'));
             }
-          } else {
-            ['relatorio-professor.html', 'criterios.html'].forEach((href) => {
-              const link = aside.querySelector(`.menu a[href="${href}"]`);
-              if (link) link.remove();
-            });
-            const helpLinkText = aside.querySelector('.menu a[href="duvidas.html"] span');
-            if (helpLinkText) helpLinkText.textContent = 'Dúvidas e critérios';
+
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+              window.lucide.createIcons();
+            }
           }
 
           aside.querySelectorAll('.menu a.menu-item').forEach(a => {

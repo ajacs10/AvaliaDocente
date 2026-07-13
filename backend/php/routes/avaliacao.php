@@ -96,7 +96,7 @@ try {
         $today = date('Y-m-d');
         $semestreAtual = get_semestre_atual($today);
         $semestreStmt = $db->prepare(
-            'SELECT id, semestre, ano FROM calendario_semestres
+            'SELECT id, semestre FROM calendario_semestres
              WHERE (ativo = 1 OR :today BETWEEN data_inicio AND data_fim)
                AND semestre = :semestre
              ORDER BY ativo DESC, data_inicio DESC
@@ -178,15 +178,18 @@ try {
         }
 
         $professorDisciplinaStmt = $db->prepare(
-            'SELECT id
-             FROM professor_disciplinas
-             WHERE professor_id = :professor_id
-               AND disciplina_id = :disciplina_id
+            'SELECT pd.professor_id
+             FROM professor_disciplinas pd
+             INNER JOIN disciplinas d ON d.id = pd.disciplina_id
+             WHERE pd.professor_id = :professor_id
+               AND pd.disciplina_id = :disciplina_id
+               AND d.semestre = :semestre
              LIMIT 1'
         );
         $professorDisciplinaStmt->execute([
             ':professor_id' => $professorId,
-            ':disciplina_id' => $disciplinaId
+            ':disciplina_id' => $disciplinaId,
+            ':semestre' => $semestreAtual
         ]);
 
         if (!$professorDisciplinaStmt->fetch(PDO::FETCH_ASSOC)) {

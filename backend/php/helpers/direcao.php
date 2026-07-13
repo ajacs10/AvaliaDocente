@@ -13,7 +13,7 @@ function calcular_media_geral(array $avaliacoes): float {
     return round($soma / count($avaliacoes), 2);
 }
 
-function resumir_avaliacoes_direcao(array $avaliacoes): array {
+function resumir_avaliacoes_direcao(array $avaliacoes, ?int $totalEstudantesRegistados = null): array {
     $por_professor = [];
     $por_curso = [];
     $por_ano = [];
@@ -47,7 +47,9 @@ function resumir_avaliacoes_direcao(array $avaliacoes): array {
         $por_curso[$curso] = ($por_curso[$curso] ?? 0) + 1;
         $por_ano[$ano] = ($por_ano[$ano] ?? 0) + 1;
         $por_semestre[$semestre] = ($por_semestre[$semestre] ?? 0) + 1;
-        $estudantes[$alunoId] = true;
+        if ($alunoId > 0) {
+            $estudantes[$alunoId] = true;
+        }
     }
 
     $ranking = array_values(array_map(static function (array $item): array {
@@ -64,7 +66,8 @@ function resumir_avaliacoes_direcao(array $avaliacoes): array {
 
     return [
         'total_avaliacoes' => count($avaliacoes),
-        'total_estudantes' => count($estudantes),
+        'total_estudantes' => $totalEstudantesRegistados ?? count($estudantes),
+        'media_geral' => calcular_media_geral($avaliacoes),
         'ranking_professores' => array_slice($ranking, 0, 5),
         'por_curso' => $por_curso,
         'por_ano' => $por_ano,

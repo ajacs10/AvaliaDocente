@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cursos mais avaliados - Direção</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css?v=20260710-1">
+  <link rel="stylesheet" href="../css/pages.css?v=20260710-1">
+  <link rel="stylesheet" href="../css/components/sidebar.css?v=20260710-1">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="dashboard-direcao" data-report-section="curso">
+  <div class="dashboard-container">
+    <div id="sidebar-root"></div>
+    <main class="dashboard-main">
+      <header class="dash-header">
+        <div class="welcome-text">
+          <h1 id="dashboardGreeting">Cursos mais avaliados</h1>
+          <p class="header-security"><strong>Relatório anónimo de avaliações e estatísticas por curso.</strong> A Direção visualiza apenas dados agregados.</p>
+        </div>
+        <div class="header-actions">
+          <button class="notification-btn" aria-label="Notificações"><i data-lucide="bell"></i></button>
+          <div class="user-profile">
+            <div class="avatar">DR</div>
+            <div class="user-info">
+              <span class="user-name" id="dashboardUserName">Direção</span>
+              <span class="user-role">Direção</span>
+            </div>
+            <i data-lucide="chevron-down" class="dropdown-icon"></i>
+          </div>
+        </div>
+      </header>
+
+      <section class="page-content">
+        <div class="report-overview">
+          <section class="report-stat-card"><span>Total de avaliações</span><strong id="reportTotal">—</strong></section>
+          <section class="report-stat-card"><span>Cursos com avaliações</span><strong id="reportItemsTotal">—</strong></section>
+        </div>
+        <section class="page-card">
+          <h2 class="card-title">Cursos mais avaliados</h2>
+          <p class="card-text">Ranking dos cursos conforme a quantidade de avaliações recebidas.</p>
+          <div id="reportList" class="inline-list"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/include-sidebar.js?v=20260710-1"></script>
+  <script src="../js/dashboard.js?v=20260710-1"></script>
+  <script src="../js/dashboard-direcao-sections.js?v=20260710-1"></script>
+  <script>if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();</script>
+</body>
+</html>

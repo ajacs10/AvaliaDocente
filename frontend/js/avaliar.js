@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const backToCatalogBtn = document.getElementById('backToCatalog');
   let professors = [];
   let evaluatedProfessorIds = new Set();
+  let isSubmitting = false;
 
   const escapeHtml = (value) => String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -99,10 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const day = now.getDate();
     const md = month * 100 + day;
 
-    if (md >= 1007 || md <= 308) return '1.º Semestre';
-    if (md >= 310 && md <= 804) return '2.º Semestre';
+    if (md >= 1007 || md <= 308) return 'primeiro semestre';
+    if (md >= 310 && md <= 804) return 'segundo semestre';
 
-    return parsedStored ? `${parsedStored}.º Semestre` : '2.º Semestre';
+    if (parsedStored === 1) return 'primeiro semestre';
+    if (parsedStored === 2) return 'segundo semestre';
+    return 'segundo semestre';
   };
 
   const currentSemesterNumber = () => {
@@ -207,7 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="professor-card-info">
             <strong>${escapeHtml(professor.nome || 'Professor')}</strong>
             <span>${escapeHtml(professor.disciplina_nome || 'Cadeira não informada')}</span>
-            <small>${escapeHtml(professor.ano_academico || 'Ano não informado')} | ${escapeHtml(professor.semestre || 'Semestre não informado')}</small>
+            <small>${escapeHtml(professor.ano_academico || 'Ano não informado')}.º ano · ${escapeHtml(professor.semestre || 'Semestre não informado')}.º semestre</small>
+            <small class="professor-semester-badge">Avaliação do 2.º semestre disponível</small>
           </div>
           <div class="professor-card-actions">
             <button class="professor-card-action" type="button" data-key="${escapeHtml(key)}" ${evaluated ? 'disabled' : ''}>
@@ -331,10 +335,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const curso = window.sessionStorage.getItem('sistema-avaliacao:studentCourse') || 'Engenharia de Inf. e Sist. de Informação';
       const ano = window.sessionStorage.getItem('sistema-avaliacao:studentYear') || '4.º Ano';
       const semestreAtual = currentSemesterNumber();
+      const alunoId = window.sessionStorage.getItem('sistema-avaliacao:studentId');
       const professorLists = [];
 
       for (const cursoOpcao of courseAliases(curso)) {
-        const list = await ProfessorAPI.listar(cursoOpcao, { ano, semestre: semestreAtual });
+        const list = await ProfessorAPI.listar(cursoOpcao, { ano, semestre: semestreAtual, aluno_id: alunoId });
         if (list.length) professorLists.push(list);
       }
 
@@ -347,7 +352,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const alunoId = window.sessionStorage.getItem('sistema-avaliacao:studentId');
       if (alunoId && window.AvaliacaoAPI) {
         try {
           const evaluations = await AvaliacaoAPI.listar(alunoId);
@@ -360,6 +364,10 @@ document.addEventListener('DOMContentLoaded', () => {
       professorSelect.innerHTML = '<option value="">Selecione um professor</option>' + professors.map((professor) => (
         `<option value="${escapeHtml(professorKey(professor))}">${escapeHtml(professor.nome)} - ${escapeHtml(professor.disciplina_nome || 'Cadeira não informada')}</option>`
       )).join('');
+      const semesterHeader = document.getElementById('semesterHeader');
+      if (semesterHeader) {
+        semesterHeader.textContent = `Semestre atual: ${currentSemester()}`;
+      }
       const semesterInfo = document.getElementById('semesterInfo');
       if (semesterInfo) {
         semesterInfo.textContent = `Só é possível avaliar professores associados ao ${currentSemester()} desta unidade curricular.`;
@@ -410,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (isSubmitting) return;
 
     const alunoId = Number(window.sessionStorage.getItem('sistema-avaliacao:studentId'));
     const selectedProfessor = professors.find((professor) => professorKey(professor) === professorSelect.value);
@@ -439,6 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
+      isSubmitting = true;
+      if (submitButton) submitButton.disabled = true;
       await AvaliacaoAPI.criar({
         aluno_id: alunoId,
         professor_id: professorId,
@@ -466,6 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
       setMessage('Avaliação enviada com sucesso.');
     } catch (error) {
       setMessage(error.message || 'Não foi possível enviar a avaliação agora. Tente novamente.', true);
+    } finally {
+      isSubmitting = false;
+      if (submitButton) submitButton.disabled = false;
     }
   });
 

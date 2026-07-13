@@ -68,6 +68,12 @@
     height: 24px;
 }
 
+.brand-icon img {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
 .brand-text h2 {
     font-size: 1.15rem;
     font-weight: 700;

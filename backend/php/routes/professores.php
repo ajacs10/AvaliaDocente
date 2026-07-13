@@ -10,10 +10,12 @@ try {
     $semestre = trim((string)($_GET['semestre'] ?? ''));
     $disciplina = trim((string)($_GET['disciplina'] ?? ''));
     $disciplina_id = trim((string)($_GET['disciplina_id'] ?? ''));
+    $alunoId = (int)($_GET['aluno_id'] ?? 0);
 
     $sql = 'SELECT p.id, p.nome, p.departamento, p.foto_perfil, p.created_at,
                 d.id AS disciplina_id,
-                d.nome AS disciplina_nome, d.sigla, d.ano_academico, d.semestre, d.status, d.curso,
+                d.nome AS disciplina_nome, d.sigla, d.ano_academico, d.semestre, d.status,
+                c.id AS curso_id, c.nome AS curso, c.nome AS curso_nome,
                 COUNT(a.id) AS total_avaliacoes,
                 ROUND(AVG((
                     COALESCE(a.metodologia, 0) +
@@ -22,14 +24,16 @@ try {
                 ) / 3), 1) AS media_avaliacoes
          FROM professores p
          LEFT JOIN professor_disciplinas pd ON pd.professor_id = p.id
-         LEFT JOIN disciplinas d ON d.id = COALESCE(pd.disciplina_id, p.disciplina_id)
+         LEFT JOIN disciplinas d ON d.id = pd.disciplina_id
+         LEFT JOIN cursos c ON c.id = d.curso_id
          LEFT JOIN avaliacoes a ON a.professor_id = p.id AND a.disciplina_id = d.id';
     $params = [];
     $filters = [];
 
     if ($curso !== '') {
-        $filters[] = 'd.curso = :curso';
-        $params[':curso'] = $curso;
+        $filters[] = '(c.nome = :curso_nome OR c.sigla = :curso_sigla)';
+        $params[':curso_nome'] = $curso;
+        $params[':curso_sigla'] = $curso;
     }
 
     if ($disciplina_id !== '') {
@@ -45,39 +49,24 @@ try {
     if ($ano !== '') {
         preg_match('/\d+/', $ano, $anoMatches);
         if (!empty($anoMatches[0])) {
-            $studentYear = (int)$anoMatches[0];
-            if ($studentYear < 5) {
-                $allowedYears = [];
-                for ($year = 1; $year <= $studentYear; $year++) {
-                    $allowedYears[] = sprintf('%d.º Ano', $year);
-                }
-
-                $yearClauses = [];
-                foreach ($allowedYears as $index => $yearLabel) {
-                    $placeholder = ':ano_' . $index;
-                    $yearClauses[] = 'd.ano_academico = ' . $placeholder;
-                    $params[$placeholder] = $yearLabel;
-                }
-
-                if ($yearClauses) {
-                    $filters[] = '(' . implode(' OR ', $yearClauses) . ')';
-                }
-            }
-        } else {
+            $params[':ano'] = (int)$anoMatches[0];
             $filters[] = 'd.ano_academico = :ano';
-            $params[':ano'] = $ano;
         }
     }
 
     if ($semestre !== '') {
         preg_match('/\d+/', $semestre, $semestreMatches);
         if (!empty($semestreMatches[0])) {
-            $filters[] = 'd.semestre LIKE :semestre';
-            $params[':semestre'] = '%' . $semestreMatches[0] . '%';
-        } else {
+            $params[':semestre'] = (int)$semestreMatches[0];
             $filters[] = 'd.semestre = :semestre';
-            $params[':semestre'] = $semestre;
         }
+    }
+
+    if ($alunoId > 0) {
+        $sql .= ' INNER JOIN matriculas m ON m.disciplina_id = d.id
+                  INNER JOIN calendario_semestres cs ON cs.id = m.calendario_id AND cs.semestre = d.semestre';
+        $filters[] = 'm.usuario_id = :aluno_id';
+        $params[':aluno_id'] = $alunoId;
     }
 
     if ($filters) {
@@ -86,8 +75,9 @@ try {
 
     $sql .= ' GROUP BY p.id, p.nome, p.departamento, p.foto_perfil, p.created_at,
                     d.id,
-                    d.nome, d.sigla, d.ano_academico, d.semestre, d.status, d.curso
-              ORDER BY d.ano_academico ASC, d.semestre ASC, p.nome ASC';
+                    d.nome, d.sigla, d.ano_academico, d.semestre, d.status,
+                    c.id, c.nome
+              ORDER BY d.ano_academico ASC, d.semestre ASC, d.nome ASC, p.nome ASC';
     $stmt = $db->prepare($sql);
     $stmt->execute($params);
 

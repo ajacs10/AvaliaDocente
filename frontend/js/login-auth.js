@@ -59,8 +59,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const translations = await loadTranslations();
     const t = (key) => translations[key] || key;
 
-    if (!student || !pass) {
-      setMsg(t('Informe o numero de estudante e a senha.'));
+    if (!student) {
+      setMsg(t('Informe o número de estudante, email ou nome.'));
+      studentInput.focus();
+      return;
+    }
+
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(student);
+    const isStudentNumber = /^[0-9]+$/.test(student);
+    const isName = !isEmail && !isStudentNumber && student.length >= 2;
+
+    if (!(isEmail || isStudentNumber || isName)) {
+      setMsg(t('Informe um número de estudante, email ou nome válido.'));
+      studentInput.focus();
+      return;
+    }
+
+    if (isStudentNumber && (student.length < 4 || student.length > 12)) {
+      setMsg(t('Número de estudante inválido.')); 
+      studentInput.focus();
+      return;
+    }
+
+    if (!pass) {
+      setMsg(t('Informe a senha.'));
+      passwordInput.focus();
+      return;
+    }
+
+    if (pass.length < 4) {
+      setMsg(t('A senha deve ter pelo menos 4 caracteres.'));
+      passwordInput.focus();
       return;
     }
 
@@ -112,14 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
       setAuthValue('sistema-avaliacao:studentPhoto', user.foto_perfil || '', remember);
       setAuthValue('sistema-avaliacao:studentCourse', user.curso || '', remember);
       setAuthValue('sistema-avaliacao:studentYear', user.ano_academico || '', remember);
-      const userType = String(user.tipo || 'aluno').toLowerCase();
-      setAuthValue('sistema-avaliacao:userType', userType, remember);
+      const rawUserType = String(user.tipo || 'aluno').toLowerCase().trim();
+      const mappedUserType = ['admin', 'coordenador local', 'coordenador', 'direcao'].includes(rawUserType) ? 'admin' : rawUserType === 'professor' ? 'professor' : 'aluno';
+      setAuthValue('sistema-avaliacao:userType', mappedUserType, remember);
       if (user.professor_id) setAuthValue('sistema-avaliacao:professorId', String(user.professor_id), remember);
       else {
         window.sessionStorage.removeItem('sistema-avaliacao:professorId');
         window.localStorage.removeItem('sistema-avaliacao:professorId');
       }
 
+      const userType = mappedUserType;
       // keep showing spinner briefly and then redirect (without extra message)
       setTimeout(() => {
         if (userType === 'professor') {

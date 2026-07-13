@@ -13,7 +13,7 @@ try {
 
     $today = date('Y-m-d');
     $stmt = $db->prepare('
-        SELECT id, semestre, ano FROM calendario_semestres 
+        SELECT id, semestre FROM calendario_semestres
         WHERE :today BETWEEN data_inicio AND data_fim 
         LIMIT 1
     ');
@@ -28,7 +28,7 @@ try {
         SELECT 
             p.id as professor_id,
             p.nome as professor_nome,
-            p.email as professor_email,
+            p.departamento as professor_departamento,
             p.foto_perfil as professor_foto,
             d.id as disciplina_id,
             d.nome as disciplina_nome,
@@ -39,10 +39,10 @@ try {
             END as ja_avaliado
         FROM matriculas m
         JOIN disciplinas d ON m.disciplina_id = d.id
-        JOIN profesores_disciplinas pd ON d.id = pd.disciplina_id
+        JOIN professor_disciplinas pd ON d.id = pd.disciplina_id
         JOIN professores p ON pd.professor_id = p.id
         LEFT JOIN avaliacoes av ON (
-            av.usuario_id = m.usuario_id 
+            av.aluno_id = m.usuario_id
             AND av.professor_id = p.id 
             AND av.disciplina_id = d.id 
             AND av.calendario_id = m.calendario_id

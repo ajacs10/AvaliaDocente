@@ -1088,6 +1088,22 @@ body.modal-open { overflow: hidden; }
         padding: 20px;
     }
 
+    .page-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .action-row {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .dashboard-direcao .btn-pdf {
+        width: 100%;
+        justify-content: center;
+    }
+
     .discipline-grid,
     .discipline-metrics {
         grid-template-columns: 1fr;
@@ -1104,7 +1120,7 @@ body.modal-open { overflow: hidden; }
 
     .mini-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
     }
 
     .my-evaluation-item {

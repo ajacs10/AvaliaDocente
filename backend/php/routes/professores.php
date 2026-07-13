@@ -46,7 +46,10 @@ try {
         $params[':disciplina'] = '%' . $disciplina . '%';
     }
 
-    if ($ano !== '') {
+    // Only apply `ano` filter when no aluno_id is provided. When an
+    // aluno_id is present we will restrict by the student's matriculas
+    // instead (see aluno_id handling below).
+    if ($ano !== '' && $alunoId === 0) {
         preg_match('/\d+/', $ano, $anoMatches);
         if (!empty($anoMatches[0])) {
             $params[':ano'] = (int)$anoMatches[0];
@@ -54,7 +57,8 @@ try {
         }
     }
 
-    if ($semestre !== '') {
+    // Only apply `semestre` filter when no aluno_id is provided.
+    if ($semestre !== '' && $alunoId === 0) {
         preg_match('/\d+/', $semestre, $semestreMatches);
         if (!empty($semestreMatches[0])) {
             $params[':semestre'] = (int)$semestreMatches[0];
@@ -62,12 +66,14 @@ try {
         }
     }
 
-    // Nota: anteriormente filtrávamos as disciplinas por matrícula do aluno
-    // (INNER JOIN matriculas) para só mostrar disciplinas onde existia
-    // matrícula do `aluno_id`. Para permitir que todo estudante do mesmo
-    // curso/ano/semestre possa avaliar, removemos essa restrição — a
-    // listagem passa a respeitar apenas os filtros de `curso`, `ano` e
-    // `semestre` recebidos do frontend.
+    // If an aluno_id is provided, restrict results to the disciplines
+    // that this student is enrolled in. This makes the frontend call
+    // `?aluno_id=...` return only professors for the student's own
+    // matriculated disciplines (avoids relying solely on ano/semestre).
+    if ($alunoId > 0) {
+        $filters[] = 'd.id IN (SELECT disciplina_id FROM matriculas WHERE usuario_id = :aluno_id)';
+        $params[':aluno_id'] = $alunoId;
+    }
 
     if ($filters) {
         $sql .= ' WHERE ' . implode(' AND ', $filters);

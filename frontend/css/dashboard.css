@@ -733,6 +733,7 @@ body.modal-open {
     .dash-header { padding-left: 20px; padding-right: 20px; }
     .next-evaluation-card { flex-direction: column; align-items: flex-start; gap: 20px; }
     .eval-actions-right { width: 100%; align-items: flex-start; }
+    .page-content { padding: 24px 20px; }
 }
 
 @media (max-width: 768px) {
@@ -741,6 +742,15 @@ body.modal-open {
         grid-template-columns: auto minmax(0, 1fr) auto;
         padding: 16px;
     }
+    .page-content { padding: 20px 18px; }
+    .page-grid { grid-template-columns: 1fr; gap: 18px; }
+    .report-overview { grid-template-columns: 1fr; }
+    .action-row { justify-content: flex-start; flex-wrap: wrap; gap: 12px; }
+    .dashboard-direcao .btn-pdf { width: 100%; justify-content: center; }
+    .mini-item { flex-direction: column; align-items: stretch; }
+    .report-stat-card { padding: 18px; }
+    .dashboard-direcao .page-card { min-height: auto; }
+    .dashboard-direcao .page-card:hover { transform: none; }
     .top-row { padding: 24px 20px 0 20px; gap: 20px; }
     .evaluations-section { padding: 0 20px; margin-top: 24px; }
     .dash-header { align-items: center; gap: 12px; }
